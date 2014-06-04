@@ -1,0 +1,45 @@
+img{
+	height:auto;
+	vertical-align: middle;
+}
+
+.dropdown-menu{
+	padding: 15px;
+	position:absolute;
+	left:0px;
+}
+
+#search{
+	background-color: #fff;
+	border-width: 1px;
+	border-color: #ddd;
+	border-radius: 4px 4px 0 0;
+	box-shadow: none;
+	border-style: solid;
+	padding: 45px 15px 15px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 600px;
+
+}
+
+li{
+	float:left;
+}
+
+#about{
+	float: none;
+	padding: 10px 15px 10px;
+	color: #777777;
+	text-decoration: none;
+	text-shadow: 0 1px 0 #ffffff;
+	margin-top: 6px;
+}
+
+form{
+	margin-left: 60px;
+}
+
+select{
+	margin-left: 15px;
+}
