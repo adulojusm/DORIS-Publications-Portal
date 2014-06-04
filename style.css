@@ -3,11 +3,13 @@ img{
 	vertical-align: middle;
 }
 
+
 .dropdown-menu{
 	padding: 15px;
 	position:absolute;
 	left:0px;
 }
+
 
 #search{
 	background-color: #fff;
@@ -20,12 +22,11 @@ img{
 	margin-left: auto;
 	margin-right: auto;
 	width: 600px;
-
 }
 
-li{
+/*li{
 	float:left;
-}
+}*/
 
 #about{
 	float: none;
@@ -40,6 +41,11 @@ form{
 	margin-left: 60px;
 }
 
+
 select{
+	margin-left: 35px;
+}
+
+#selects{
 	margin-left: 15px;
 }
