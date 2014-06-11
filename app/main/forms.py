@@ -1,1 +1,1 @@
-__author__ = 'akabir'
+from flask.ext.wtf import Form
