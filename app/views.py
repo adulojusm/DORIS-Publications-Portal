@@ -1,7 +1,8 @@
 from app import app
-from flask import Flask, render_template, request, flash
+from flask import Flask, render_template, request, flash, url_for,redirect
 from forms import SearchForm
-
+from models import db,Agency,Category,Type,Document
+import datetime
 
 app.secret_key = 'development key'
 
@@ -24,6 +25,7 @@ def results():
         agency = request.form['agency']
         category = request.form['category']
         types = request.form['type']
+
         return render_template("res.html", search=search, agency=agency, category=category, types=types, method='post')
 
 
@@ -34,3 +36,15 @@ def publication():
 @app.route('/about')
 def about():
 	return render_template("about.html")
+
+@app.route('/testdb')
+def testdb():
+    date1 = datetime.date(2011,07,21)
+    newdoc = Document(title='hello',description='this is a sample doc',datecreated=date1,filename='file',url='some url',
+                      porf='FOIL',num_access=0)
+    newdoc.aid=1
+    newdoc.cid=1
+    newdoc.tid=1
+    db.session.add(newdoc)
+    db.session.commit()
+    return redirect(url_for('index'))

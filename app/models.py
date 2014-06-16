@@ -1,10 +1,11 @@
-from app import db
-from datetime import date
+from flask.ext.sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
 
 
 class Agency(db.Model):
-    __tablename__ = 'agencies'
-    aid = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
+    __tablename__ = 'agency'
+    aid = db.Column(db.Integer,primary_key=True)
     agency = db.Column(db.Enum(
         'Aging',
         'Buildings',
@@ -94,15 +95,15 @@ class Agency(db.Model):
         'Volunteer Center',
         'Voter Assistance',
         'Youth & Community'), nullable=False, index=True)
-    documents = db.relationship('Document', backref='agency', lazy='dynamic')
+    document = db.relationship('Document', backref='agency', lazy='dynamic')
 
-    def __repr__(self):
-        return '<Agency %r>' % self.agency
+    def __init__(self, agency):
+        self.agency = agency
 
 
 class Category(db.Model):
-    __tablename__ = 'categories'
-    cid = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
+    __tablename__ = 'category'
+    cid = db.Column(db.Integer,primary_key=True)
     category = db.Column(db.Enum(
         'Business and Consumers',
         'Cultural/Entertainment',
@@ -119,15 +120,14 @@ class Category(db.Model):
         'Sanitation',
         'Technology',
         'Transportation'), nullable=False, index=True)
-    documents = db.relationship('Document', backref='category', lazy='dynamic')
 
-    def __repr__(self):
-        return '<Category %r>' % self.category
 
+    def __init__(self, category):
+        self.category = category
 
 class Type(db.Model):
-    __tablename__ = 'types'
-    tid = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
+    __tablename__ = 'type'
+    tid = db.Column(db.Integer,primary_key=True)
     type = db.Column(db.Enum(
         'Annual Report',
         'Audit Report',
@@ -142,31 +142,35 @@ class Type(db.Model):
         'Serial Publication',
         'Staff Report',
         'Report'), nullable=False, index=True)
-    documents = db.relationship('Document', backref='type', lazy='dynamic')
+    document = db.relationship('Document', backref='type', lazy='dynamic')
 
-    def __repr__(self):
-        return '<Type %r>' % self.type
-
+    def __init__(self, type):
+        self.type = type
 
 class Document(db.Model):
-    __tablename__ = 'Documents'
-    id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
-    title = db.Column(db.String(10000), index=True, nullable=False)
-    description = db.Column(db.String(10000), index=True, nullable=False)
-    date_created = db.Column(db.Date, nullable=False)
+    __tablename__ = 'document'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(10000), nullable=False)
+    description = db.Column(db.String(10000), nullable=False)
+    datecreated = db.Column(db.Date, nullable=False)
     filename = db.Column(db.String(255), nullable=False)
-    commonid = db.Column(db.Integer, default=None)
-    sectionid = db.Column(db.Integer, default=None)
-    num_access = db.Column(db.Integer, nullable=False, default=0)
-    aid = db.Column(db.Integer, db.ForeignKey('agencies.aid'))
-    cid = db.Column(db.Integer, db.ForeignKey('categories.cid'))
-    tid = db.Column(db.Integer, db.ForeignKey('types.tid'))
+    common_id = db.Column(db.Integer, default=None)
+    section_id = db.Column(db.Integer, default=None)
+    num_access = db.Column(db.Integer, default=0, nullable=False)
+    aid = db.Column(db.Integer, db.ForeignKey('agency.aid'))
 
-    def __repr__(self):
-        return '<Document %r>' % self.title
+    cid = db.Column(db.Integer, db.ForeignKey('category.cid'))
+    '''category = db.relationship('Category',
+        backref=db.backref('document', lazy='dynamic'))'''
+    tid = db.Column(db.Integer, db.ForeignKey('type.tid'))
+    url = db.Column(db.String(255), nullable=False)
+    porf = db.Column(db.Enum('Publication','FOIL'),nullable=False)
 
-#d1 = models.Document(title="hello",description="yo",date_created=ex,filename="file",num_access=0)
-
-
-
-
+    def __init__(self, title, description, datecreated, filename, num_access, url, porf):
+        self.title=title
+        self.description = description
+        self.datecreated = datecreated
+        self.filename = filename
+        self.num_access = num_access
+        self.url = url
+        self.porf = porf
