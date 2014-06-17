@@ -10,11 +10,7 @@ app.secret_key = 'development key'
 @app.route('/index',methods=['GET', 'POST'])
 def index():
     form = SearchForm()
-
     return render_template("index.html", form=form)
-
-
-
 
 @app.route('/results', methods=['GET', 'POST'])
 def results():
@@ -22,7 +18,7 @@ def results():
 
         search = request.form['user_input']
         if not search:
-            flash("Please enter a search")
+            flash('Please enter a search entry.')
             return redirect(url_for('index'))
         agency = request.form['agency']
         category = request.form['category']
