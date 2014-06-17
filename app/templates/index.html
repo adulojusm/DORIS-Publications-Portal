@@ -25,11 +25,17 @@
 <div id="search">
 	<h2 style="margin-left: 130px;">Search Publications</h2>
 	<br>
-    {% for message in get_flashed_messages() %}
-        <div class="flash"> message </div>
-    {% endfor %}
+
 	<form class="form-search" role="form" method="post" action = '/results'>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+            {% endif %}
+        {% endwith %}
 	    <div class="form-group">
+
 			<div class="col-sm-9">
                 {{ form.user_input(class="form-control") }}
 				<!--<input type="text" placeholder="Search me!" class="form-control" name='search'> -->
