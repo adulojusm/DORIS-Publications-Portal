@@ -149,7 +149,9 @@ body {
 }
 
 .flash {
-    background: red;
-    padding: 0.5em;
-    border: 1px solid palevioletred;
+    color: #b1001a;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    font-weight: bold;
+    font-size: 18px;
 }
