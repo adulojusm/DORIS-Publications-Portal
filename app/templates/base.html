@@ -59,6 +59,11 @@
 	            });
 	
 	        });
+	        $(".dropdown-menu li a").click(function(){
+	 			var typeText = $(this).parents('li').prevUntil('.divider').last().text();
+				var selText = $(this).text();
+				$(this).parents('.btn-group').find('.dropdown-toggle').html(typeText+': '+selText+' <span class="caret"></span>');
+			});
 	    </script>
 	    
 	</body>
