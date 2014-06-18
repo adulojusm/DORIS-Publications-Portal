@@ -38,17 +38,18 @@ def publication():
 def about():
 	return render_template("about.html")
 
-'''
+
 @app.route('/testdb')
 def testdb():
+
     date1 = datetime.date(2011,07,21)
+    category = Category('Education')
+    db.session.add(category)
     newdoc = Document(title='hello',description='this is a sample doc',datecreated=date1,filename='file',url='some url',
-                      porf='FOIL',num_access=0)
-    newdoc.aid=1
-    newdoc.cid=1
-    newdoc.tid=1
+                      puborfoil= 'FOIL',num_access=0)
+    newdoc.category = category
     db.session.add(newdoc)
+    aquery = Document.query.join(Category).filter(Document.id == 1).first()
     db.session.commit()
-    return redirect(url_for('index')
-    )
-    '''
+    flash(str(aquery.id) + str(aquery.cid))
+    return redirect(url_for('index'))

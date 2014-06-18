@@ -95,7 +95,7 @@ class Agency(db.Model):
         'Volunteer Center',
         'Voter Assistance',
         'Youth & Community'), nullable=False, index=True)
-    document = db.relationship('Document', backref='agency', lazy='dynamic')
+
 
     def __init__(self, agency):
         self.agency = agency
@@ -122,6 +122,7 @@ class Category(db.Model):
         'Transportation'), nullable=False, index=True)
 
 
+
     def __init__(self, category):
         self.category = category
 
@@ -142,7 +143,7 @@ class Type(db.Model):
         'Serial Publication',
         'Staff Report',
         'Report'), nullable=False, index=True)
-    document = db.relationship('Document', backref='type', lazy='dynamic')
+
 
     def __init__(self, type):
         self.type = type
@@ -159,18 +160,20 @@ class Document(db.Model):
     num_access = db.Column(db.Integer, default=0, nullable=False)
     aid = db.Column(db.Integer, db.ForeignKey('agency.aid'))
 
+    agency = db.relationship('Agency',primaryjoin= 'Document.aid == Agency.aid', backref=db.backref('document', lazy='dynamic'))
     cid = db.Column(db.Integer, db.ForeignKey('category.cid'))
-    '''category = db.relationship('Category',
-        backref=db.backref('document', lazy='dynamic'))'''
-    tid = db.Column(db.Integer, db.ForeignKey('type.tid'))
-    url = db.Column(db.String(255), nullable=False)
-    porf = db.Column(db.Enum('Publication','FOIL'),nullable=False)
 
-    def __init__(self, title, description, datecreated, filename, num_access, url, porf):
+    category = db.relationship('Category', primaryjoin= 'Document.cid == Category.cid',backref=db.backref('document', lazy='dynamic'))
+    tid = db.Column(db.Integer, db.ForeignKey('type.tid'))
+    type = db.relationship('Type',primaryjoin= 'Document.tid == Type.tid', backref=db.backref('document', lazy='dynamic'))
+    url = db.Column(db.String(255), nullable=False)
+    puborfoil = db.Column(db.Enum('Publication','FOIL'),nullable=False)
+
+    def __init__(self, title, description, datecreated, filename, num_access, url, puborfoil):
         self.title=title
         self.description = description
         self.datecreated = datecreated
         self.filename = filename
         self.num_access = num_access
         self.url = url
-        self.porf = porf
+        self.puborfoil = puborfoil
