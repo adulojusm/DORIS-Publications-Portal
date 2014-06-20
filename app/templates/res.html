@@ -137,6 +137,8 @@
 		        <option value="Staff Report">Staff Report</option>
 		        <option value="Report">Report</option>
     		</select>
+            <br>
+            <input type="submit" class="btn btn-nyc" id="btn" value="Refine Search">
 		</div>
 	</div>
 </div>
@@ -144,10 +146,10 @@
 <div id="main">
 	<div class="col-md-12">
 		
-		<div class="navbar navbar-fixed-top" style="left: 280px; top: 50px;">
+		<div class="navbar navbar-fixed-top" style="min-width: 500px; left: 280px; top: 50px;">
 		
 			<h4 class="navbar-text"> 
-				3 Results:
+				{{ length }} Results:
 			</h4>
 			
 			<ul class="nav navbar-nav navbar-right" style="padding-right: 30px">
@@ -191,11 +193,11 @@
                             {{ result.description }}
                         </p>
 						<p>
-							<a type="button" class="btn btn-sm btn-nyc" href="publication">
+							<a type="button" class="btn btn-sm btn-nyc" href="publication/{{ result.filename }}">
 								<span class="glyphicon glyphicon-search"></span> View
 							</a>
 							<button type="button" class="btn btn-sm btn-nyc">
-								<span class="glyphicon glyphicon-book"></span>
+								<span class="glyphicon glyphicon-save"></span>
 							</button>
 						</p>
 					</div>
@@ -203,62 +205,7 @@
 			</div>
 		</div>
 		{% endfor %}
-		<!--<div class="row">
-			<div class="col-md-12">
-				<div class="panel panel-result">
-					<div class="panel-heading">
-						<h3 class="panel-title">Risus Justo Fringilla Ipsum Bibendum</h3>
-					</div>
-					<div class="panel-body">
-						<h5>Tristique Quam Justo</h5>
-						<p>
-							<small>2014 - 06 - 03</small>
-							<small style="padding-left:2em">Condimentum Cursus</small>
-						</p>
-						<p>
-							Cras mattis consectetur purus sit amet fermentum. Donec ullamcorper nulla non metus auctor fringilla. Donec ullamcorper nulla non metus auctor fringilla. Aenean lacinia bibendum nulla sed consectetur. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla vitae elit libero, a pharetra augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-						</p>
-						<p>
-							<a type="button" class="btn btn-sm btn-nyc" href="publication">
-								<span class="glyphicon glyphicon-search"></span> View
-							</a>
-							<button type="button" class="btn btn-sm btn-nyc">
-								<span class="glyphicon glyphicon-book"></span>
-							</button>
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-		<div class="row">
-			<div class="col-md-12">
-				<div class="panel panel-result">
-					<div class="panel-heading">
-						<h3 class="panel-title">Risus Justo Fringilla Ipsum Bibendum</h3>
-					</div>
-					<div class="panel-body">
-						<h5>Tristique Quam Justo</h5>
-						<p>
-							<small>2014 - 06 - 03</small>
-							<small style="padding-left:2em">Condimentum Cursus</small>
-						</p>
-						<p>
-							Cras mattis consectetur purus sit amet fermentum. Donec ullamcorper nulla non metus auctor fringilla. Donec ullamcorper nulla non metus auctor fringilla. Aenean lacinia bibendum nulla sed consectetur. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla vitae elit libero, a pharetra augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-						</p>
-						<p>
-							<a type="button" class="btn btn-sm btn-nyc" href="publication">
-								<span class="glyphicon glyphicon-search"></span> View
-							</a>
-							<button type="button" class="btn btn-sm btn-nyc">
-								<span class="glyphicon glyphicon-book"></span>
-							</button>
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
--->
+
 	</div>
 </div>
 

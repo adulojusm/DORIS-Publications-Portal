@@ -10,7 +10,7 @@ class Document(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	title = db.Column(db.String(10000), nullable=False)
 	description = db.Column(db.String(10000), nullable=False)
-	datecreated = db.Column(db.Date, nullable=False)
+	date_created = db.Column(db.Date, nullable=False)
 	filename = db.Column(db.String(255), nullable=False)
 	common_id = db.Column(db.Integer, default=None)
 	section_id = db.Column(db.Integer, default=None)
@@ -135,7 +135,7 @@ class Document(db.Model):
 		'Staff Report',
 		'Report'), nullable=False, index=True)
 	url = db.Column(db.String(255), nullable=False)
-	puborfoil = db.Column(db.Enum('Publication','FOIL'),nullable=False)
+	pub_or_foil = db.Column(db.Enum('Publication','FOIL'),nullable=False)
 
 	def __init__(self, title, description, datecreated, filename, num_access, url, puborfoil):
 		self.title=title
@@ -144,4 +144,4 @@ class Document(db.Model):
 		self.filename = filename
 		self.num_access = num_access
 		self.url = url
-		self.puborfoil = puborfoil
+		self.pub_or_foil = puborfoil
