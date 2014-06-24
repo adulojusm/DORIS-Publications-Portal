@@ -8,10 +8,10 @@ db = SQLAlchemy()
 class Document(db.Model):
 	__tablename__ = 'document'
 	id = db.Column(db.Integer, primary_key=True)
-	title = db.Column(db.String(10000), nullable=False)
-	description = db.Column(db.String(10000), nullable=False)
+	title = db.Column(db.String(767), nullable=False,index=True)
+	description = db.Column(db.String(767), nullable=False, index=True)
 	date_created = db.Column(db.Date, nullable=False)
-	filename = db.Column(db.String(255), nullable=False)
+	filename = db.Column(db.String(767), nullable=False)
 	common_id = db.Column(db.Integer, default=None)
 	section_id = db.Column(db.Integer, default=None)
 	num_access = db.Column(db.Integer, default=0, nullable=False)
@@ -138,9 +138,9 @@ class Document(db.Model):
 	pub_or_foil = db.Column(db.Enum('Publication','FOIL'),nullable=False)
 
 	def __init__(self, title, description, datecreated, filename, num_access, url, puborfoil):
-		self.title=title
+		self.title = title
 		self.description = description
-		self.datecreated = datecreated
+		self.date_created = datecreated
 		self.filename = filename
 		self.num_access = num_access
 		self.url = url
