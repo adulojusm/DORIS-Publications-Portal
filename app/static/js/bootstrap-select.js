@@ -259,10 +259,24 @@
              }
             
             this.options.title = this.$element.attr('title');
+            this.options.name = this.$element.attr('name');
 
-            //If we dont have a title, then use the default, or if nothing is set at all, use the not selected text
+            //If we do not have a title, then use the default, or if nothing is set at all, use the not selected text
             if (!title) {
-                title = this.options.title !== undefined ? this.options.title : this.options.noneSelectedText;
+                switch(this.options.name) {
+                    case "agencySelect":
+                        title = this.options.agencySelectedText;
+                        break;
+                    case "categorySelect":
+                        title = this.options.categorySelectedText;
+                        break;
+                    case "typeSelect":
+                        title = this.options.typeSelectedText;
+                        break;
+                    default:
+                        title = this.options.noneSelectedText;
+                }
+                //title = this.options.title !== undefined ? this.options.title : this.options.noneSelectedText;
             }
 
             this.$button.attr('title', $.trim(title));
@@ -550,7 +564,7 @@
                         that.setSelected(clickedIndex, true);
                     }
                     //Else toggle the one we have chosen if we are multi select.
-                    else {                        
+                    else {
                         $option.prop('selected', !state);
                         that.setSelected(clickedIndex, !state);
                         
@@ -949,6 +963,9 @@
         title: null,
         selectedTextFormat : 'values',
         noneSelectedText : 'Nothing selected',
+        agencySelectedText : 'All Agencies',
+        categorySelectedText : 'All Categories',
+        typeSelectedText : 'All Types',
         noneResultsText : 'No results match',
         countSelectedText: '{0} of {1} selected',
         maxOptionsText: ['Limit reached ({n} {var} max)', 'Group limit reached ({n} {var} max)', ['items','item']],
