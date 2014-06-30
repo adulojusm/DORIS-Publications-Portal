@@ -6,13 +6,15 @@
 	<div class="col-md-12">
 	
 		<div class="navbar navbar-fixed-top" style="top: 60px; padding-left: 15px;">
-			<a type="button" class="btn btn-nyc" href="index">Start a New Search</a>
+			<a type="button" class="btn btn-nyc" href="/index">Start a New Search</a>
 		</div>
+        <br><br>
+        <form class="form-search" role="form" method="get" action = '/results/refined' style="margin-left: 0;">
 
-        <form class="form-search" role="form" method="post" action = '/results'>
             <div id="selects">
-                <br>
-                <select name="agencySelect" class="selectpicker input-medium" multiple data-live-search="true" style="display: none;">
+                <input type="submit" class="btn btn-nyc" id="btn" value="Refine Search">
+                <br><br>
+                <select name="agency[]" class="selectpicker input-medium" multiple data-live-search="true" style="display: none;">
                     <option value="Aging" >Aging</option>
                     <option value="Buildings" >Buildings</option>
                     <option value="Campaign Finance" >Campaign Finance</option>
@@ -102,8 +104,8 @@
                     <option value="Voter Assistance" >Voter Assistance</option>
                     <option value="Youth & Community" >Youth & Community</option>
                 </select>
-                <br>
-                <select name="categorySelect" class="selectpicker" multiple data-live-search="true" style="display: none;">
+                <br><br>
+                <select name="category[]" class="selectpicker" multiple data-live-search="true" style="display: none;">
                     <option value="Business and Consumers">Business and Consumers</option>
                     <option value="Cultural/Entertainment">Cultural/Entertainment</option>
                     <option value="Education">Education</option>
@@ -120,8 +122,8 @@
                     <option value="Technology">Technology</option>
                     <option value="Transportation">Transportation</option>
                 </select>
-                <br>
-                <select name="typeSelect" onfocus="skipcycle=true" onblur="skipcycle=false" class="selectpicker" multiple data-live-search="true" style="display: none;">
+                <br><br>
+                <select name="type[]" onfocus="skipcycle=true" onblur="skipcycle=false" class="selectpicker" multiple data-live-search="true" style="display: none;">
                     <option value="Annual Report">Annual Report</option>
                     <option value="Audit Report">Audit Report</option>
                     <option value="Bond Offering - Offical Statements">Bond Offering</option>
@@ -136,10 +138,8 @@
                     <option value="Staff Report">Staff Report</option>
                     <option value="Report">Report</option>
                 </select>
-                <br>
-                <input type="submit" class="btn btn-nyc" id="btn" value="Refine Search">
             </div>
-            </form>
+        </form>
 	</div>
 </div>
 		
@@ -151,7 +151,11 @@
 
 			<h4 class="navbar-text">
                 {% if search %}
-                {{ length }} Results for "{{ search }}" :
+                    {% if search in session %}
+                        {{ length }} Results for "{{ search }}" :
+                    {%  else %}
+                        {{ length }} Results for "{{ search }}" :
+                    {% endif %}
                 {% else %}
                 {{ length }} Results for " " :
                 {% endif %}
@@ -161,71 +165,75 @@
 				<div class="btn-group">
 					<button type="button" class="btn navbar-btn">Sort By </button>
 					<button type="button" class="btn btn-default dropdown-toggle navbar-btn" data-toggle="dropdown">
-						Relevance <span class="caret"></span>
+                        {{ sort_method + ' ' }}<span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Relevance</a></li>
+                        <li><a href="{{ url_for('results', sort='Relevance') }}">Relevance</a></li>
                         <li class="divider"></li>
                         <p style="padding-left: 10px; font-weight: bold;">Date</p>
-						<li><a href="#">Newest</a></li>
-						<li><a href="#">Oldest</a></li>
+						<li><a href="{{ url_for('results', sort='Date: Newest') }}">Newest</a></li>
+						<li><a href="{{ url_for('results', sort='Date: Oldest') }}">Oldest</a></li>
 						<li class="divider"></li>
 						<p style="padding-left: 10px; font-weight: bold;">Title</p>
-						<li><a href="#">A - Z</a></li>
-						<li><a href="#">Z - A</a></li>
+						<li><a href="{{ url_for('results', sort='Title: A - Z') }}">A - Z</a></li>
+						<li><a href="{{ url_for('results', sort='Title: Z - A') }}">Z - A</a></li>
 						<li class="divider"></li>
-						<p style="padding-left: 10px; font-weight: bold;">Author</p>
-						<li><a href="#">A - Z</a></li>
-						<li><a href="#">Z - A</a></li>
+						<p style="padding-left: 10px; font-weight: bold;">Agency</p>
+						<li><a href="{{ url_for('results', sort='Agency: A - Z') }}">A - Z</a></li>
+						<li><a href="{{ url_for('results', sort='Agency: Z - A') }}">Z - A</a></li>
 					</ul>
 				</div>
 			</ul>
 		</div>
 
+            {% for result in results %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-result">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">{{ result.title }}</h3>
+                        </div>
+                        <div class="panel-body">
+                            <h5>{{ result.agency }}</h5>
+                            <p>
+                                <small>{{ result.date_created }}</small>
+                                <small style="padding-left:2em">{{ result.type }}</small>
+                            </p>
+                            <p>
+                                {{ result.description }}
+                            </p>
+                            <p>
+                                {% if result.url != '' %}
+                                <form method="get" action="{{ url_for('publication',id = result.id) }}" style="margin-left: 0; display: inline-block;">
+                                    <button type="submit" class="btn btn-sm btn-nyc">
+                                        <span class="glyphicon glyphicon-search"></span> View
+                                    </button>
+                                </form>
+                                {% else %}
+                                <form method="get" action="404" style="margin-left: 0; display: inline-block;">
+                                    <button type="submit" class="btn btn-sm btn-nyc">
+                                        <span class="glyphicon glyphicon-search"></span> View
+                                    </button>
+                                </form>
+                                {% endif %}
 
-        {% for result in results %}
-		<div class="row">
-			<div class="col-md-12">
-				<div class="panel panel-result">
-					<div class="panel-heading">
-						<h3 class="panel-title">{{ result.title }}</h3>
-					</div>
-					<div class="panel-body">
-						<h5>{{ result.agency }}</h5>
-						<p>
-							<small>{{ result.date_created }}</small>
-							<small style="padding-left:2em">{{ result.type }}</small>
-						</p>
-						<p>
-                            {{ result.description }}
-                        </p>
-						<p>
-                            {% if result.url != '' %}
-                            <form method="get" action="{{ result.url }}" style="margin-left: 0; display: inline-block;">
-                                <button type="submit" class="btn btn-sm btn-nyc">
-                                    <span class="glyphicon glyphicon-search"></span> View
-                                </button>
-                            </form>
-                            {% else %}
-                            <form method="get" action="404" style="margin-left: 0; display: inline-block;">
-                                <button type="submit" class="btn btn-sm btn-nyc">
-                                    <span class="glyphicon glyphicon-search"></span> View
-                                </button>
-                            </form>
-                            {% endif %}
 
+                                <form method="get" action="{{ result.url }}" style="margin-left: 0; display: inline-block;">
+                                    <button type="submit" class="btn btn-sm btn-nyc">
+                                        <span class="glyphicon glyphicon-save"></span> Save
+                                    </button>
+                                </form>
+                                <!-- html5 only -->
+{#                                <a href="{{ result.url }}" download="{{ result.filename }}" class="btn btn-sm btn-nyc">#}
+{#                                    <span class="glyphicon glyphicon-save"></span> Save#}
+{#                                </a>#}
 
-                            <form method="get" action="{{ result.url }}" style="margin-left: 0; display: inline-block;">
-							    <button type="submit" class="btn btn-sm btn-nyc">
-								    <span class="glyphicon glyphicon-save"></span>
-							    </button>
-                            </form>
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
-		{% endfor %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
 
 	</div>
 </div>

@@ -264,13 +264,13 @@
             //If we do not have a title, then use the default, or if nothing is set at all, use the not selected text
             if (!title) {
                 switch(this.options.name) {
-                    case "agencySelect":
+                    case "agency[]":
                         title = this.options.agencySelectedText;
                         break;
-                    case "categorySelect":
+                    case "category[]":
                         title = this.options.categorySelectedText;
                         break;
-                    case "typeSelect":
+                    case "type[]":
                         title = this.options.typeSelectedText;
                         break;
                     default:

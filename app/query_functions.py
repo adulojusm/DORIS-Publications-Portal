@@ -1,5 +1,5 @@
 from models import db, Document
-from sqlalchemy import or_,desc
+from sqlalchemy import or_,desc, false
 
 
 def process_query(search, _agency, _category, _types):
@@ -27,7 +27,7 @@ def process_query(search, _agency, _category, _types):
 				results_t2 = results_t2.filter(Document.title.like('%' + word + '%'))
 				results_d1 = results_d1.filter(Document.description.like('% ' + word + ' %'))
 				results_d2 = results_d2.filter(Document.description.like('%' + word + '%'))
-				results = results_t1.union(results_t2).union(results_d1).union(results_d2)
+				results = results_t1.union(results_d1).union(results_t2).union(results_d2)
 	else:
 
 		results = Document.query
@@ -66,6 +66,38 @@ def process_query(search, _agency, _category, _types):
 				results = results.all()
 				return results
 
-	results = results.all()
+	return results
+
+def refine_search(results, agencies, categories, types):
+
+	if agencies or categories or types:
+
+		refined = Document.query.filter(false())
+
+		for agency in agencies:
+			_results = results.filter(Document.agency == agency)
+			refined = refined.union(_results)
+
+		for category in categories:
+			_results = results.filter(Document.category == category)
+			refined = refined.union(_results)
+
+		for type in types:
+			_results = results.filter(Document.type == type)
+			refined = refined.union(_results)
+
+		return refined
 
 	return results
+
+
+def sort_search(results, sort_method):
+	sort_by = { "Relevance": results,
+				"Date: Newest": results.order_by(desc(Document.date_created)),
+				"Date: Oldest": results.order_by(Document.date_created),
+				"Title: A - Z": results.order_by(Document.title),
+				"Title: Z - A": results.order_by(desc(Document.title)),
+				"Agency: A - Z": results.order_by(Document.agency),
+				"Agency: Z - A": results.order_by(desc(Document.agency))}
+
+	return sort_by[sort_method]
