@@ -9,10 +9,10 @@
 			<a type="button" class="btn btn-nyc" href="/index">Start a New Search</a>
 		</div>
         <br><br>
-        <form class="form-search" role="form" method="get" action = '/results/refined' style="margin-left: 0;">
+        <form class="form-search" role="form" method="get" action = '/results' style="margin-left: 0;">
 
             <div id="selects">
-                <input type="submit" class="btn btn-nyc" id="btn" value="Refine Search">
+                <input type="submit" class="btn btn-nyc" id="btn" name="btn" value="Refine Search">
                 <br><br>
                 <select name="agency[]" class="selectpicker input-medium" multiple data-live-search="true" style="display: none;">
                     <option value="Aging" >Aging</option>
@@ -89,7 +89,7 @@
                     <option value="Public Housing-NYCHA" >Public Housing-NYCHA</option>
                     <option value="Records" >Records</option>
                     <option value="Rent Guidelines" >Rent Guidelines</option>
-                    <option value="Sanitation" >Sanita</option>
+                    <option value="Sanitation" >Sanitation</option>
                     <option value="School Construction" >School Construction</option>
                     <option value="Small Business Svcs" >Small Business Svcs</option>
                     <option value="Sports Commission" >Sports Commission</option>
@@ -199,7 +199,8 @@
                             <h3 class="panel-title">{{ result.title }}</h3>
                         </div>
                         <div class="panel-body">
-                            <h5>{{ result.agency }}</h5>
+                            <h5><b>{{ result.agency }}</b></h5>
+                            <h5>{{ result.category }}</h5>
                             <p>
                                 <small>{{ result.date_created }}</small>
                                 <small style="padding-left:2em">{{ result.type }}</small>

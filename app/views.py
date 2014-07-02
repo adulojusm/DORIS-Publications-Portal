@@ -1,8 +1,8 @@
 from app import app
-from flask import Flask,render_template, request, flash, url_for,redirect,make_response,session,abort
+from flask import Flask,render_template, request, flash, url_for,redirect,make_response,session,abort,jsonify
 from forms import SearchForm
 from models import db, Document
-from query_functions import process_query, refine_search, sort_search
+from query_functions import process_query, sort_search
 
 
 def redirect_url(default='index'):
@@ -14,6 +14,7 @@ active = {"0": "NOT ACTIVE", "1": "ACTIVE"}
 @app.route('/index', methods=['GET', 'POST'])
 def index():
 	form = SearchForm()
+	session.clear()
 	return render_template("index.html", form=form)
 
 @app.route('/results', methods=['GET', 'POST'])
@@ -22,47 +23,64 @@ def results():
 		session['sort'] = 'Relevance'
 
 	if request.method == 'POST':
-		sort_method = session['sort']
-		search = request.form.get('user_input')
-		session['search'] = request.form.get('user_input')
-		print search
-		agencies = request.form.getlist('agency[]')
-		session['agencies'] = request.form.getlist('agency[]')
-		categories = request.form.getlist('category[]')
-		session['categories'] = request.form.getlist('category[]')
-		types = request.form.getlist('type[]')
-		session['types'] = request.form.getlist('type[]')
+		if request.form['btn'] == "Search":
+			sort_method = session['sort']
+			search = request.form.get('user_input')
+			session['search'] = request.form.get('user_input')
+			agencies = request.form.getlist('agency[]')
+			session['agencies'] = request.form.getlist('agency[]')
+			categories = request.form.getlist('category[]')
+			session['categories'] = request.form.getlist('category[]')
+			types = request.form.getlist('type[]')
+			session['types'] = request.form.getlist('type[]')
 
-		if not search and not agencies and not categories and not types:
-			flash('Please enter a search or select a filter.')
-			return redirect(url_for('index'))
+			if not search and not agencies and not categories and not types:
+				flash('Please enter a search or select a filter.')
+				return redirect(url_for('index'))
 
-		results = process_query(search, agencies, categories, types)
+			results = process_query(search, agencies, categories, types)
 
-		if len(results):
-			return render_template("res.html", search=session['search'], results=results, length=len(results), method='post', sort_method=sort_method,agencies=agencies,categories=categories,types=types)
-		else:
-			flash('No results found')
-			return redirect(url_for('index'))
+			if len(results):
+				return render_template("res.html", search=search, results=results, length=len(results), method='post', sort_method=sort_method,agencies=agencies,categories=categories,types=types)
+			else:
+				flash('No results found')
+				return redirect(url_for('index'))
+
+		# if request.form['btn'] == "Refine Search":
+		# 	print "FUCK GET!"
 
 	if request.method == 'GET':
-		search = session['search']
+		if 'ref_agencies' not in session:
+			session['ref_agencies'] = session['agencies']
+		if 'ref_categories' not in session:
+			session['ref_categories'] = session['categories']
+		if 'ref_types' not in session:
+			session['ref_types'] = session['types']
+
 		agencies = session['agencies']
 		categories = session['categories']
 		types = session['types']
-		results = process_query(search, agencies, categories, types)
+		if request.args.getlist('agency[]'):
+			agencies = request.args.getlist('agency[]')
+			session['ref_agencies'] = agencies
+		if request.args.getlist('category[]'):
+			categories = request.args.getlist('category[]')
+			session['ref_categories'] = categories
+		if request.args.getlist('type[]'):
+			types = request.args.getlist('type[]')
+			session['ref_types'] = types
 
-		# if request.args.get('sort'):
-		# 	sort_method = request.args.get('sort')
-		# 	session['sort'] = sort_method
-		# 	results = sort_search(results, sort_method).all()
-		# 	return render_template("res.html", search=search, results=results, length=len(results), sort_method=sort_method)
-		# elif session['sort']:
-		# 	sort_method = session['sort']
-		# 	results = sort_search(results, sort_method).all()
-		# 	return render_template("res.html", search=search, results=results, length=len(results), sort_method=sort_method)
-		# sort_method = session['sort']
-		return render_template("res.html", search=search, results=results, length=len(results), sort_method='Relevance')
+		if request.args.getlist('agency[]') or request.args.getlist('category[]') or request.args.getlist('type[]'):
+			results = process_query(session['search'], agencies, categories, types)
+		else:
+			results = process_query(session['search'], session['agencies'], session['categories'], session['types'])
+
+		if request.args.get('sort'):
+			results = process_query(session['search'], session['ref_agencies'], session['ref_categories'], session['ref_types'])
+			session['sort'] = request.args.get('sort')
+		results = sort_search(results, session['sort'])
+
+		return render_template("res.html", search=session['search'], results=results, length=len(results), sort_method=session['sort'])
 
 
 # @app.route('/results/refined', methods=['GET'])
@@ -72,9 +90,7 @@ def results():
 # 	# categories = session['categories']
 # 	# types = session['types']
 #
-# 	agencies = request.args.getlist('agency[]')
-# 	categories = request.args.getlist('category[]')
-# 	types = request.args.getlist('type[]')
+
 # 	results = process_query(search, agencies, categories, types)
 # 	if request.args.get('sort'):
 # 		sort_method = request.args.get('sort')

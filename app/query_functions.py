@@ -12,21 +12,22 @@ def process_query(search, agencies_selected, categories_selected, types_selected
 		search = search.replace(char, '')
 
 	split_search = search.split()
-
 	if split_search:
 		results_t1 = Document.query
 		results_t2 = Document.query
+		results_t3 = Document.query
 		results_d1 = Document.query
 		results_d2 = Document.query
 		results_ag = Document.query
 		results_cat = Document.query
 		results_typ = Document.query
 		for word in split_search:
-			if len(word)<4:
+			if len(word) < 4:
 				results_t1 = results_t1.filter(Document.title.like('% ' + word + ' %'))
 				results_t2 = results_t2.filter(Document.title.like(word + ' %'))
+				results_t3 = results_t3.filter(Document.title.like('% ' + word))
 				results_d1 = results_d1.filter(Document.description.like('% ' + word + ' %'))
-				results = results_t1.union(results_t2).union(results_d1)
+				results = results_t1.union(results_t2).union(results_t3).union(results_d1).all()
 			else:
 				results_t1 = results_t1.filter(Document.title.like('% ' + word + ' %'))
 				results_t2 = results_t2.filter(Document.title.like('%' + word + '%'))
@@ -50,7 +51,6 @@ def process_query(search, agencies_selected, categories_selected, types_selected
 	if agencies_selected:
 		for result in results:
 			if result.agency in agencies_selected:
-				print result.agency
 				a.append(result)
 	else:
 		a = results
@@ -69,37 +69,16 @@ def process_query(search, agencies_selected, categories_selected, types_selected
 	else:
 		c = b
 
-	return list(set(c))
-
-def refine_search(results, agencies, categories, types):
-
-	if agencies or categories or types:
-		refined = Document.query.filter(false())
-
-		for agency in agencies:
-			_results = results.filter(Document.agency == agency)
-			refined = refined.union(_results)
-
-		for category in categories:
-			_results = results.filter(Document.category == category)
-			refined = refined.union(_results)
-
-		for type in types:
-			_results = results.filter(Document.type == type)
-			refined = refined.union(_results)
-
-		return refined
-
-	return results
+	return c
 
 
 def sort_search(results, sort_method):
-	sort_by = { "Relevance": results,
-				"Date: Newest": results.order_by(desc(Document.date_created)),
-				"Date: Oldest": results.order_by(Document.date_created),
-				"Title: A - Z": results.order_by(Document.title),
-				"Title: Z - A": results.order_by(desc(Document.title)),
-				"Agency: A - Z": results.order_by(Document.agency),
-				"Agency: Z - A": results.order_by(desc(Document.agency))}
+	sort_by = {"Relevance": results,
+				"Date: Newest": sorted(results, key=lambda r: r.date_created, reverse=True),
+				"Date: Oldest": sorted(results, key=lambda r: r.date_created),
+				"Title: A - Z": sorted(results, key=lambda r: r.title),
+				"Title: Z - A": sorted(results, key=lambda r: r.title, reverse=True),
+				"Agency: A - Z": sorted(results, key=lambda r: r.agency),
+				"Agency: Z - A": sorted(results, key=lambda r: r.agency, reverse=True)}
 
 	return sort_by[sort_method]
