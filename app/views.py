@@ -42,12 +42,6 @@ def results():
 				return redirect(url_for('index'))
 
 		if request.form['btn'] == "Refine Search":
-			if 'ref_agencies' not in session:
-				session['ref_agencies'] = session['agencies']
-			if 'ref_categories' not in session:
-				session['ref_categories'] = session['categories']
-			if 'ref_types' not in session:
-				session['ref_types'] = session['types']
 			agencies = request.form.getlist('agency[]')
 			session['ref_agencies'] = agencies
 			categories = request.form.getlist('category[]')
@@ -58,10 +52,15 @@ def results():
 			if request.form.getlist('agency[]') or request.form.getlist('category[]') or request.form.getlist('type[]'):
 				results = process_query(session['search'], agencies, categories, types)
 			else:
-				session['ref_agencies'] = session['agencies']
-				session['ref_categories'] = session['categories']
-				session['ref_types'] = session['types']
+
 				results = process_query(session['search'], session['agencies'], session['categories'], session['types'])
+
+	if 'ref_agencies' not in session:
+		session['ref_agencies'] = session['agencies']
+	if 'ref_categories' not in session:
+		session['ref_categories'] = session['categories']
+	if 'ref_types' not in session:
+		session['ref_types'] = session['types']
 
 	if request.method == 'GET':
 		if request.args.get('back'):

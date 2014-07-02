@@ -4,7 +4,6 @@
 		
 <div id="sidebar">
 	<div class="col-md-12">
-	
 		<div class="navbar navbar-fixed-top" style="top: 60px; padding-left: 15px;">
 			<a type="button" class="btn btn-nyc" href="/index">Start a New Search</a>
 		</div>
@@ -12,7 +11,7 @@
         <form class="form-search" role="form" method="post" action = '/results' style="margin-left: 0;">
 
             <div id="selects">
-                <input type="submit" class="btn btn-nyc" id="btn" name="btn" value="Refine Search">
+                <input type="submit" class="btn btn-nyc" id="btn" name="btn" value="Refine Search" onclick="$.jStorage.set('scrollPosition', 0);">
                 <br><br>
                 <select name="agency[]" class="selectpicker input-medium" multiple data-live-search="true" style="display: none;">
                     <option value="Aging" >Aging</option>
@@ -142,105 +141,92 @@
         </form>
 	</div>
 </div>
-		
-<div id="main">
-	<div class="col-md-12">
-		
-		<div class="navbar navbar-fixed-top" style="min-width: 500px; left: 280px; top: 50px;">
 
-
-			<h4 class="navbar-text">
-                {% if search %}
-                    {% if search in session %}
-                        {{ length }} Results for "{{ search }}" :
-                    {%  else %}
-                        {{ length }} Results for "{{ search }}" :
-                    {% endif %}
-                {% else %}
-                {{ length }} Results for " " :
-                {% endif %}
+<div class="navbar navbar-fixed-top" style="min-width: 500px; left: 280px; top: 50px;">
+    <h4 class="navbar-text">
+        {% if search %}
+            {% if search in session %}
+                {{ length }} Results for "{{ search }}" :
+            {%  else %}
+                {{ length }} Results for "{{ search }}" :
+            {% endif %}
+        {% else %}
+        {{ length }} Results for " " :
+        {% endif %}
         Agencies:
         {% for agency in agencies %}
             {{ agency }}
 
         {% endfor %}
-            </h4>
-			
-			<ul class="nav navbar-nav navbar-right" style="padding-right: 30px">
-				<div class="btn-group">
-					<button type="button" class="btn navbar-btn">Sort By </button>
-					<button type="button" class="btn btn-default dropdown-toggle navbar-btn" data-toggle="dropdown">
-                        {{ sort_method + ' ' }}<span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu" role="menu">
-                        <li><a href="{{ url_for('results', sort='Relevance') }}">Relevance</a></li>
-                        <li class="divider"></li>
-                        <p style="padding-left: 10px; font-weight: bold;">Date</p>
-						<li><a href="{{ url_for('results', sort='Date: Newest') }}">Newest</a></li>
-						<li><a href="{{ url_for('results', sort='Date: Oldest') }}">Oldest</a></li>
-						<li class="divider"></li>
-						<p style="padding-left: 10px; font-weight: bold;">Title</p>
-						<li><a href="{{ url_for('results', sort='Title: A - Z') }}">A - Z</a></li>
-						<li><a href="{{ url_for('results', sort='Title: Z - A') }}">Z - A</a></li>
-						<li class="divider"></li>
-						<p style="padding-left: 10px; font-weight: bold;">Agency</p>
-						<li><a href="{{ url_for('results', sort='Agency: A - Z') }}">A - Z</a></li>
-						<li><a href="{{ url_for('results', sort='Agency: Z - A') }}">Z - A</a></li>
-					</ul>
-				</div>
-			</ul>
-		</div>
+    </h4>
+    <ul class="nav navbar-nav navbar-right" style="padding-right: 30px">
+        <div class="btn-group">
+            <button type="button" class="btn navbar-btn">Sort By </button>
+            <button type="button" class="btn btn-default dropdown-toggle navbar-btn" data-toggle="dropdown">
+                {{ sort_method + ' ' }}<span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" onclick="$.jStorage.set('scrollPosition', 0);">
+                <li><a href="{{ url_for('results', sort='Relevance') }}" >Relevance</a></li>
+                <li class="divider"></li>
+                <p style="padding-left: 10px; font-weight: bold;">Date</p>
+                <li><a href="{{ url_for('results', sort='Date: Newest') }}">Newest</a></li>
+                <li><a href="{{ url_for('results', sort='Date: Oldest') }}">Oldest</a></li>
+                <li class="divider"></li>
+                <p style="padding-left: 10px; font-weight: bold;">Title</p>
+                <li><a href="{{ url_for('results', sort='Title: A - Z') }}">A - Z</a></li>
+                <li><a href="{{ url_for('results', sort='Title: Z - A') }}">Z - A</a></li>
+                <li class="divider"></li>
+                <p style="padding-left: 10px; font-weight: bold;">Agency</p>
+                <li><a href="{{ url_for('results', sort='Agency: A - Z') }}">A - Z</a></li>
+                <li><a href="{{ url_for('results', sort='Agency: Z - A') }}">Z - A</a></li>
+            </ul>
+        </div>
+    </ul>
+</div>
 
-            {% for result in results %}
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="panel panel-result">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">{{ result.title }}</h3>
-                        </div>
-                        <div class="panel-body">
-                            <h5><b>{{ result.agency }}</b></h5>
-                            <h5>{{ result.category }}</h5>
-                            <p>
-                                <small>{{ result.date_created }}</small>
-                                <small style="padding-left:2em">{{ result.type }}</small>
-                            </p>
-                            <p>
-                                {{ result.description }}
-                            </p>
-                            <p>
-                                {% if result.url != '' %}
-                                <form method="get" action="{{ url_for('publication',id = result.id) }}" style="margin-left: 0; display: inline-block;">
-                                    <button type="submit" class="btn btn-sm btn-nyc">
-                                        <span class="glyphicon glyphicon-search"></span> View
-                                    </button>
-                                </form>
-                                {% else %}
-                                <form method="get" action="404" style="margin-left: 0; display: inline-block;">
-                                    <button type="submit" class="btn btn-sm btn-nyc">
-                                        <span class="glyphicon glyphicon-search"></span> View
-                                    </button>
-                                </form>
-                                {% endif %}
+<div id="main" onscroll="$.jStorage.set('scrollPosition', this.scrollTop);">
+	<div class="col-md-12">
+        {% for result in results %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-result">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{ result.title }}</h3>
+                    </div>
+                    <div class="panel-body">
+                        <h5><b>{{ result.agency }}</b></h5>
+                        <h5>{{ result.category }}</h5>
+                        <p>
+                            <small>{{ result.date_created }}</small>
+                            <small style="padding-left:2em">{{ result.type }}</small>
+                        </p>
+                        <p> {{ result.description }} </p>
+                        <p>
+                            {% if result.url != '' %}
+                            <form method="get" action="{{ url_for('publication',id = result.id) }}" style="margin-left: 0; display: inline-block;">
+                                <button type="submit" class="btn btn-sm btn-nyc">
+                                    <span class="glyphicon glyphicon-search"></span> View
+                                </button>
+                            </form>
+                            {% else %}
+                            <form method="get" action="404" style="margin-left: 0; display: inline-block;">
+                                <button type="submit" class="btn btn-sm btn-nyc">
+                                    <span class="glyphicon glyphicon-search"></span> View
+                                </button>
+                            </form>
+                            {% endif %}
 
-
-                                <form method="get" action="{{ result.url }}" style="margin-left: 0; display: inline-block;">
-                                    <button type="submit" class="btn btn-sm btn-nyc">
-                                        <span class="glyphicon glyphicon-save"></span> Save
-                                    </button>
-                                </form>
-                                <!-- html5 only -->
-{#                                <a href="{{ result.url }}" download="{{ result.filename }}" class="btn btn-sm btn-nyc">#}
-{#                                    <span class="glyphicon glyphicon-save"></span> Save#}
-{#                                </a>#}
-
-                            </p>
-                        </div>
+                            <form method="get" action="{{ result.url }}" style="margin-left: 0; display: inline-block;">
+                                <button type="submit" class="btn btn-sm btn-nyc">
+                                    <span class="glyphicon glyphicon-save"></span> Save
+                                </button>
+                            </form>
+                        </p>
                     </div>
                 </div>
             </div>
-            {% endfor %}
-
+        </div>
+        {% endfor %}
 	</div>
 </div>
 
