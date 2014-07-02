@@ -13,6 +13,7 @@ def process_query(search, agencies_selected, categories_selected, types_selected
 
 	split_search = search.split()
 	if split_search:
+		results = Document.query.filter(false())
 		results_t1 = Document.query
 		results_t2 = Document.query
 		results_t3 = Document.query
@@ -27,7 +28,7 @@ def process_query(search, agencies_selected, categories_selected, types_selected
 				results_t2 = results_t2.filter(Document.title.like(word + ' %'))
 				results_t3 = results_t3.filter(Document.title.like('% ' + word))
 				results_d1 = results_d1.filter(Document.description.like('% ' + word + ' %'))
-				results = results_t1.union(results_t2).union(results_t3).union(results_d1).all()
+				results = results.union(results_t1).union(results_t2).union(results_t3).union(results_d1)
 			else:
 				results_t1 = results_t1.filter(Document.title.like('% ' + word + ' %'))
 				results_t2 = results_t2.filter(Document.title.like('%' + word + '%'))
@@ -36,15 +37,11 @@ def process_query(search, agencies_selected, categories_selected, types_selected
 				results_ag = results_ag.filter(Document.agency.like('%' + search + '%'))
 				results_cat = results_cat.filter(Document.category.like('%' + search + '%'))
 				results_typ = results_typ.filter(Document.type.like('%' + search + '%'))
-				results = results_t1.union(results_d1).union(results_t2).union(results_d2).union(results_ag).union(results_cat).union(results_typ).all()
-
+				results = results.union(results_t1).union(results_d1).union(results_t2).union(results_d2).union(results_ag).union(results_cat).union(results_typ)
 	else:
+		results = Document.query
 
-		results = Document.query.all()
-
-	agencies = ['aging', 'buildings', 'campaign finance', 'children\'s services', 'city council', 'city clerk', 'city planning', 'citywide admin svcs', 'civilian complaint', 'comm - police corr', 'community assistance', 'comptroller', 'conflicts of interest', 'consumer affairs', 'contracts', 'correction', 'criminal justice coordinator', 'cultural affairs', 'doi - investigation', 'design/construction', 'disabilities', 'district atty, ny county', 'districting commission', 'domestic violence', 'economic development', 'education, dept. of', 'elections, board of', 'emergency mgmt.', 'employment', 'empowerment zone', 'environmental - dep', 'environmental - oec', 'environmental - ecb', 'equal employment', 'film/theatre', 'finance', 'fire', 'fisa', 'health and mental hyg.', 'healthstat', 'homeless services', 'hospitals - hhc', 'housing - hpd', 'human rights', 'human rsrcs - hra', 'immigrant affairs', 'independent budget', 'info. tech. and telecom.', 'intergovernmental', 'international affairs', 'judiciary committee', 'juvenile justice', 'labor relations', 'landmarks', 'law department', 'library - brooklyn', 'library - new york', 'library - queens', 'loft board', 'management and budget', 'mayor', 'metropolitan transportation authority', 'nycers', 'operations', 'parks and recreation', 'payroll administration', 'police', 'police pension fund', 'probation', 'public advocate', 'public health', 'public housing-nycha', 'records', 'rent guidelines', 'sanitation', 'school construction', 'small business svcs', 'sports commission', 'standards and appeal', 'tax appeals tribunal', 'tax commission', 'taxi and limousine', 'transportation', 'trials and hearings', 'veterans - military', 'volunteer center', 'voter assistance', 'youth & community']
-	categories = ['business and consumers', 'cultural/entertainment', 'education', 'environment', 'finance and budget', 'government policy', 'health', 'housing and buildings', 'human services', 'labor relations', 'public safety', 'recreation/parks', 'sanitation', 'technology', 'transportation']
-	types = ['annual report', 'audit report', 'bond offering - official statements', 'budget report', 'consultant report', 'guide - manual', 'hearing - minutes', 'legislative document', 'memoranda - directive', 'press release', 'serial publication', 'staff report', 'report']
+	results = results.all()
 	a = []
 	b = []
 	c = []

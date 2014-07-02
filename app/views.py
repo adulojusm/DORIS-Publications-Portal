@@ -64,6 +64,8 @@ def results():
 				results = process_query(session['search'], session['agencies'], session['categories'], session['types'])
 
 	if request.method == 'GET':
+		if request.args.get('back'):
+			results = process_query(session['search'], session['ref_agencies'], session['ref_categories'], session['ref_types'])
 
 		if request.args.get('sort'):
 			results = process_query(session['search'], session['ref_agencies'], session['ref_categories'], session['ref_types'])
