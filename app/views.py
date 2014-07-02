@@ -19,6 +19,7 @@ def results():
 
 	if request.method == 'POST':
 		if request.form['btn'] == "Search":
+
 			sort_method = session['sort']
 			search = request.form.get('user_input')
 			session['search'] = request.form.get('user_input')
@@ -52,8 +53,7 @@ def results():
 			if request.form.getlist('agency[]') or request.form.getlist('category[]') or request.form.getlist('type[]'):
 				results = process_query(session['search'], agencies, categories, types)
 			else:
-
-				results = process_query(session['search'], session['agencies'], session['categories'], session['types'])
+				results = process_query(session['search'], [], [], [])
 
 	if 'ref_agencies' not in session:
 		session['ref_agencies'] = session['agencies']

@@ -13,7 +13,7 @@
             <div id="selects">
                 <input type="submit" class="btn btn-nyc" id="btn" name="btn" value="Refine Search" onclick="$.jStorage.set('scrollPosition', 0);">
                 <br><br>
-                <select name="agency[]" class="selectpicker input-medium" multiple data-live-search="true" style="display: none;">
+                <select name="agency[]" id="agencies" class="selectpicker input-medium" multiple data-live-search="true" style="display: none;">
                     <option value="Aging" >Aging</option>
                     <option value="Buildings" >Buildings</option>
                     <option value="Campaign Finance" >Campaign Finance</option>
@@ -104,7 +104,7 @@
                     <option value="Youth & Community" >Youth & Community</option>
                 </select>
                 <br><br>
-                <select name="category[]" class="selectpicker" multiple data-live-search="true" style="display: none;">
+                <select name="category[]" id="categories" class="selectpicker" multiple data-live-search="true" style="display: none;">
                     <option value="Business and Consumers">Business and Consumers</option>
                     <option value="Cultural/Entertainment">Cultural/Entertainment</option>
                     <option value="Education">Education</option>
@@ -122,7 +122,7 @@
                     <option value="Transportation">Transportation</option>
                 </select>
                 <br><br>
-                <select name="type[]" onfocus="skipcycle=true" onblur="skipcycle=false" class="selectpicker" multiple data-live-search="true" style="display: none;">
+                <select name="type[]" id="types" onfocus="skipcycle=true" onblur="skipcycle=false" class="selectpicker" multiple data-live-search="true" style="display: none;">
                     <option value="Annual Report">Annual Report</option>
                     <option value="Audit Report">Audit Report</option>
                     <option value="Bond Offering - Offical Statements">Bond Offering</option>
