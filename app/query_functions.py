@@ -1,75 +1,67 @@
-from models import db, Document
-from sqlalchemy import or_,desc, false, func
-from sqlalchemy.orm import aliased
-
+from models import Document
+from sqlalchemy.orm import defer
+import time
 
 def process_query(search, agencies_selected, categories_selected, types_selected):
-	#remove_stop_words(search)
+	"""
+	Retrieves search results based on search value and selected filters
+	:param search: user input query
+	:param agencies_selected: user-selected agencies from 'Filter' / 'Refine Search'
+	:param categories_selected: user-selected categories from 'Filter' / 'Refine Search'
+	:param types_selected: user-selected types from 'Filter' / 'Refine Search'
+	:return: finalized results of the query, and the time it takes to execute this function
+	"""
+	process_time_start = time.clock()
 
-	#remove unsafe characters
-	unsafe_chars = ['"', '<', '>', '#', '%', '{', '}', '|', '\\', '^', '~', '[', ']', '`',  "--", '.']
-	for char in unsafe_chars:
-		search = search.replace(char, '')
+	search = normalize(search)
 
-	split_search = search.split()
-	if split_search:
-		results = Document.query.filter(false())
-		results_t1 = Document.query
-		results_t2 = Document.query
-		results_t3 = Document.query
-		results_d1 = Document.query
-		results_d2 = Document.query
-		results_ag = Document.query
-		results_cat = Document.query
-		results_typ = Document.query
-		for word in split_search:
-			if len(word) < 4:
-				results_t1 = results_t1.filter(Document.title.like('% ' + word + ' %'))
-				results_t2 = results_t2.filter(Document.title.like(word + ' %'))
-				results_t3 = results_t3.filter(Document.title.like('% ' + word))
-				results_d1 = results_d1.filter(Document.description.like('% ' + word + ' %'))
-				results = results.union(results_t1).union(results_t2).union(results_t3).union(results_d1)
-			else:
-				results_t1 = results_t1.filter(Document.title.like('% ' + word + ' %'))
-				results_t2 = results_t2.filter(Document.title.like('%' + word + '%'))
-				results_d1 = results_d1.filter(Document.description.like('% ' + word + ' %'))
-				results_d2 = results_d2.filter(Document.description.like('%' + word + '%'))
-				results_ag = results_ag.filter(Document.agency.like('%' + search + '%'))
-				results_cat = results_cat.filter(Document.category.like('%' + search + '%'))
-				results_typ = results_typ.filter(Document.type.like('%' + search + '%'))
-				results = results.union(results_t1).union(results_d1).union(results_t2).union(results_d2).union(results_ag).union(results_cat).union(results_typ)
+	#initialize query or search based on user input
+	if search:
+		results = Document.query.options(defer('title')).whoosh_search(search)
 	else:
-		results = Document.query
+		results = Document.query.options(defer('title'))
 
+	#retrieve results object list
 	results = results.all()
-	a = []
-	b = []
-	c = []
+
+	#filter by user selections, if any
+	initial_filter = []
+	intermediate_filter = []
+	final_filter = []
+	
 	if agencies_selected:
 		for result in results:
 			if result.agency in agencies_selected:
-				a.append(result)
+				initial_filter.append(result)
 	else:
-		a = results
+		initial_filter = results
 
 	if categories_selected:
-		for result in a:
+		for result in initial_filter:
 			if result.category in categories_selected:
-				b.append(result)
+				intermediate_filter.append(result)
 	else:
-		b = a
+		intermediate_filter = initial_filter
 
 	if types_selected:
-		for result in b:
+		for result in intermediate_filter:
 			if result.type in types_selected:
-				c.append(result)
+				final_filter.append(result)
 	else:
-		c = b
+		final_filter = intermediate_filter
 
-	return c
+	process_time_elapsed = (time.clock() - process_time_start)
+
+	return final_filter, process_time_elapsed
 
 
 def sort_search(results, sort_method):
+	"""
+	Sorts results of current set
+	:param results: query results list
+	:param sort_method: how to sort results
+	:return: sorted results
+	"""
 	sort_by = {"Relevance": results,
 				"Date: Newest": sorted(results, key=lambda r: r.date_created, reverse=True),
 				"Date: Oldest": sorted(results, key=lambda r: r.date_created),
@@ -79,3 +71,20 @@ def sort_search(results, sort_method):
 				"Agency: Z - A": sorted(results, key=lambda r: r.agency, reverse=True)}
 
 	return sort_by[sort_method]
+
+
+def normalize(_input):
+	"""
+	Standardizes passed value by removing unnecessary characters and words
+	:param _input: string to be normalized
+	:return: normalized value
+	"""
+	#remove stop words
+	stop_words = []
+
+	#remove stop characters
+	stop_chars = ['"', '<', '>', '#', '%', '{', '}', '|', '\\', '^', '~', '[', ']', '`',  "--", '.']
+	for char in stop_chars:
+		_input = _input.replace(char, '')
+
+	return _input

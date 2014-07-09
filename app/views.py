@@ -34,10 +34,10 @@ def results():
 				flash('Please enter a search or select a filter.')
 				return redirect(url_for('index'))
 
-			results = process_query(search, agencies, categories, types)
+			results, time = process_query(search, agencies, categories, types)
 
 			if len(results):
-				return render_template("res.html", search=search, results=results, length=len(results), method='post', sort_method=sort_method,agencies=agencies,categories=categories,types=types)
+				return render_template("res.html", search=search, results=results, time=time, length=len(results), method='post', sort_method=sort_method,agencies=agencies,categories=categories,types=types)
 			else:
 				flash('No results found')
 				return redirect(url_for('index'))
@@ -51,9 +51,9 @@ def results():
 			session['ref_types'] = types
 
 			if request.form.getlist('agency[]') or request.form.getlist('category[]') or request.form.getlist('type[]'):
-				results = process_query(session['search'], agencies, categories, types)
+				results, time = process_query(session['search'], agencies, categories, types)
 			else:
-				results = process_query(session['search'], [], [], [])
+				results, time = process_query(session['search'], [], [], [])
 
 	if 'ref_agencies' not in session:
 		session['ref_agencies'] = session['agencies']
@@ -64,15 +64,15 @@ def results():
 
 	if request.method == 'GET':
 		if request.args.get('back'):
-			results = process_query(session['search'], session['ref_agencies'], session['ref_categories'], session['ref_types'])
+			results, time = process_query(session['search'], session['ref_agencies'], session['ref_categories'], session['ref_types'])
 
 		if request.args.get('sort'):
-			results = process_query(session['search'], session['ref_agencies'], session['ref_categories'], session['ref_types'])
+			results, time = process_query(session['search'], session['ref_agencies'], session['ref_categories'], session['ref_types'])
 			session['sort'] = request.args.get('sort')
 
 	results = sort_search(results, session['sort'])
 
-	return render_template("res.html", search=session['search'], results=results, length=len(results), sort_method=session['sort'])
+	return render_template("res.html", search=session['search'], results=results, time=time, length=len(results), sort_method=session['sort'])
 
 
 @app.route('/publication/<int:id>', methods=['GET'])

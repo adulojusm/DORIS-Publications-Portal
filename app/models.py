@@ -3,15 +3,14 @@ from flask.ext.sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 
-
-
 class Document(db.Model):
 	__tablename__ = 'document'
+	__searchable__ = ['title', 'description', 'agency', 'category', 'type']
 	id = db.Column(db.Integer, primary_key=True)
-	title = db.Column(db.String(767), nullable=False,index=True)
-	description = db.Column(db.String(767), nullable=False, index=True)
+	title = db.Column(db.String(255), nullable=False)
+	description = db.Column(db.Text, nullable=False)
 	date_created = db.Column(db.Date, nullable=False)
-	filename = db.Column(db.String(767), nullable=False)
+	filename = db.Column(db.String(255), nullable=False)
 	common_id = db.Column(db.Integer, default=None)
 	section_id = db.Column(db.Integer, default=None)
 	num_access = db.Column(db.Integer, default=0, nullable=False)
@@ -103,7 +102,7 @@ class Document(db.Model):
 		'Veterans - Military',
 		'Volunteer Center',
 		'Voter Assistance',
-		'Youth & Community'), nullable=False, index=True)
+		'Youth & Community'), nullable=False)
 	category = db.Column(db.Enum(
 		'Business and Consumers',
 		'Cultural/Entertainment',
@@ -119,7 +118,7 @@ class Document(db.Model):
 		'Recreation/Parks',
 		'Sanitation',
 		'Technology',
-		'Transportation'), nullable=False, index=True)
+		'Transportation'), nullable=False)
 	type = db.Column(db.Enum(
 		'Annual Report',
 		'Audit Report',
@@ -133,15 +132,6 @@ class Document(db.Model):
 		'Press Release',
 		'Serial Publication',
 		'Staff Report',
-		'Report'), nullable=False, index=True)
+		'Report'), nullable=False)
 	url = db.Column(db.String(255), nullable=False)
-	pub_or_foil = db.Column(db.Enum('Publication','FOIL'),nullable=False)
-
-	def __init__(self, title, description, datecreated, filename, num_access, url, puborfoil):
-		self.title = title
-		self.description = description
-		self.date_created = datecreated
-		self.filename = filename
-		self.num_access = num_access
-		self.url = url
-		self.pub_or_foil = puborfoil
+	pub_or_foil = db.Column(db.Enum('Publication', 'FOIL'), nullable=False)

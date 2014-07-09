@@ -145,13 +145,17 @@
 <div class="navbar navbar-fixed-top" style="min-width: 500px; left: 280px; top: 50px;">
     <h4 class="navbar-text">
         {% if search %}
-            {% if search in session %}
-                {{ length }} Results for "{{ search }}" :
-            {%  else %}
-                {{ length }} Results for "{{ search }}" :
+            {% if length == 1 %}
+                Found {{ length }} result for "{{ search }}" in {{ time }} seconds
+            {% else %}
+                Found {{ length }} results for "{{ search }}" in {{ time }} seconds
             {% endif %}
         {% else %}
-        {{ length }} Results for selected filters:
+            {% if length == 1 %}
+                Found {{ length }} result for selected filters in {{ time }} seconds
+            {% else %}
+                Found {{ length }} results for selected filters in {{ time }} seconds
+            {% endif %}
         {% endif %}
     </h4>
     <ul class="nav navbar-nav navbar-right" style="padding-right: 30px">
