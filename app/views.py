@@ -3,7 +3,7 @@ from flask import Flask,render_template, request, flash, url_for,redirect,make_r
 from forms import SearchForm
 from models import db, Document
 from query_functions import process_query, sort_search
-
+from index_database import index_database
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
@@ -97,8 +97,8 @@ def page_not_found(e):
 	return render_template('404.html'), 404
 
 
-'''@app.route('/testdb')
-def testdb():
-	db.create_all()
-	return redirect(url_for('index'))
-'''
+# @app.route('/testdb')
+# def testdb():
+# 	#db.create_all()
+# 	index_database()
+# 	return redirect(url_for('index'))

@@ -17,9 +17,9 @@ def process_query(search, agencies_selected, categories_selected, types_selected
 
 	#initialize query or search based on user input
 	if search:
-		results = Document.query.options(defer('title')).whoosh_search(search)
+		results = Document.query.options(defer('num_access')).whoosh_search(search)
 	else:
-		results = Document.query.options(defer('title'))
+		results = Document.query.options(defer('num_access'))
 
 	#retrieve results object list
 	results = results.all()
