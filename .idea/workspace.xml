@@ -14,7 +14,7 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/gpp2$run.coverage" NAME="run Coverage Results" MODIFIED="1403102122309" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app" />
     <SUITE FILE_PATH="coverage/gpp2$views.coverage" NAME="views Coverage Results" MODIFIED="1402673697100" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app" />
-    <SUITE FILE_PATH="coverage/gpp2$run__1_.coverage" NAME="run (1) Coverage Results" MODIFIED="1405108982205" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/gpp2$run__1_.coverage" NAME="run (1) Coverage Results" MODIFIED="1405110682605" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -28,11 +28,26 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
+      <file leaf-file-name="base.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/templates/base.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.6629956" vertical-offset="515" max-vertical-offset="986">
+              <caret line="48" column="49" selection-start-line="48" selection-start-column="49" selection-end-line="48" selection-end-column="49" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#ul#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="query_functions.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/query_functions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="910" max-vertical-offset="1581">
-              <caret line="71" column="0" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="561" max-vertical-offset="1581">
+              <caret line="52" column="76" selection-start-line="52" selection-start-column="76" selection-end-line="52" selection-end-column="76" />
               <folding />
             </state>
           </provider>
@@ -41,8 +56,8 @@
       <file leaf-file-name="results.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/templates/results.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="21.461538" vertical-offset="3142" max-vertical-offset="4284">
-              <caret line="152" column="61" selection-start-line="152" selection-start-column="61" selection-end-line="152" selection-end-column="61" />
+            <state vertical-scroll-proportion="-8.961538" vertical-offset="4034" max-vertical-offset="4488">
+              <caret line="251" column="120" selection-start-line="251" selection-start-column="120" selection-end-line="251" selection-end-column="120" />
               <folding>
                 <element signature="e#171#209#0#HTML" expanded="true" />
                 <element signature="e#396#419#0#HTML" expanded="true" />
@@ -54,10 +69,10 @@
                 <element signature="e#11876#11922#0#HTML" expanded="true" />
                 <element signature="e#12177#12223#0#HTML" expanded="true" />
                 <element signature="e#12477#12523#0#HTML" expanded="true" />
-                <element signature="e#13458#13482#0#HTML" expanded="true" />
-                <element signature="e#13778#13824#0#HTML" expanded="true" />
-                <element signature="e#14175#14221#0#HTML" expanded="true" />
-                <element signature="e#14587#14633#0#HTML" expanded="true" />
+                <element signature="e#13960#13984#0#HTML" expanded="true" />
+                <element signature="e#14300#14346#0#HTML" expanded="true" />
+                <element signature="e#14721#14767#0#HTML" expanded="true" />
+                <element signature="e#15157#15203#0#HTML" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -73,11 +88,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="views.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.19077568" vertical-offset="198" max-vertical-offset="2244">
-              <caret line="17" column="4" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="4" />
+            <state vertical-scroll-proportion="-9.321428" vertical-offset="1065" max-vertical-offset="2244">
+              <caret line="78" column="12" selection-start-line="78" selection-start-column="12" selection-end-line="78" selection-end-column="12" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -128,11 +143,11 @@
         <option value="$PROJECT_DIR$/app/mysql_config.py" />
         <option value="$PROJECT_DIR$/app/models.py" />
         <option value="$PROJECT_DIR$/app/static/js/gpp.js" />
-        <option value="$PROJECT_DIR$/app/templates/base.html" />
         <option value="$PROJECT_DIR$/app/templates/res.html" />
+        <option value="$PROJECT_DIR$/app/views.py" />
         <option value="$PROJECT_DIR$/app/templates/results.html" />
         <option value="$PROJECT_DIR$/app/query_functions.py" />
-        <option value="$PROJECT_DIR$/app/views.py" />
+        <option value="$PROJECT_DIR$/app/templates/base.html" />
       </list>
     </option>
   </component>
@@ -566,7 +581,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.14553991" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14553991" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18466353" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -660,10 +675,10 @@
             <element signature="e#11876#11922#0#HTML" expanded="true" />
             <element signature="e#12177#12223#0#HTML" expanded="true" />
             <element signature="e#12477#12523#0#HTML" expanded="true" />
-            <element signature="e#13458#13482#0#HTML" expanded="true" />
-            <element signature="e#13778#13824#0#HTML" expanded="true" />
-            <element signature="e#14175#14221#0#HTML" expanded="true" />
-            <element signature="e#14587#14633#0#HTML" expanded="true" />
+            <element signature="e#13960#13984#0#HTML" expanded="true" />
+            <element signature="e#14300#14346#0#HTML" expanded="true" />
+            <element signature="e#14721#14767#0#HTML" expanded="true" />
+            <element signature="e#15157#15203#0#HTML" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -737,10 +752,10 @@
             <element signature="e#11876#11922#0#HTML" expanded="true" />
             <element signature="e#12177#12223#0#HTML" expanded="true" />
             <element signature="e#12477#12523#0#HTML" expanded="true" />
-            <element signature="e#13458#13482#0#HTML" expanded="true" />
-            <element signature="e#13778#13824#0#HTML" expanded="true" />
-            <element signature="e#14175#14221#0#HTML" expanded="true" />
-            <element signature="e#14587#14633#0#HTML" expanded="true" />
+            <element signature="e#13960#13984#0#HTML" expanded="true" />
+            <element signature="e#14300#14346#0#HTML" expanded="true" />
+            <element signature="e#14721#14767#0#HTML" expanded="true" />
+            <element signature="e#15157#15203#0#HTML" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -967,19 +982,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6450939" vertical-offset="490" max-vertical-offset="969">
-          <caret line="47" column="74" selection-start-line="47" selection-start-column="74" selection-end-line="47" selection-end-column="74" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#ul#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/static/js/gpp.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="379" max-vertical-offset="884">
@@ -988,10 +990,28 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.321428" vertical-offset="1065" max-vertical-offset="2244">
+          <caret line="78" column="12" selection-start-line="78" selection-start-column="12" selection-end-line="78" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/query_functions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="561" max-vertical-offset="1581">
+          <caret line="52" column="76" selection-start-line="52" selection-start-column="76" selection-end-line="52" selection-end-column="76" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/results.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="21.461538" vertical-offset="3142" max-vertical-offset="4284">
-          <caret line="152" column="61" selection-start-line="152" selection-start-column="61" selection-end-line="152" selection-end-column="61" />
+        <state vertical-scroll-proportion="-8.961538" vertical-offset="4034" max-vertical-offset="4488">
+          <caret line="251" column="120" selection-start-line="251" selection-start-column="120" selection-end-line="251" selection-end-column="120" />
           <folding>
             <element signature="e#171#209#0#HTML" expanded="true" />
             <element signature="e#396#419#0#HTML" expanded="true" />
@@ -1003,28 +1023,23 @@
             <element signature="e#11876#11922#0#HTML" expanded="true" />
             <element signature="e#12177#12223#0#HTML" expanded="true" />
             <element signature="e#12477#12523#0#HTML" expanded="true" />
-            <element signature="e#13458#13482#0#HTML" expanded="true" />
-            <element signature="e#13778#13824#0#HTML" expanded="true" />
-            <element signature="e#14175#14221#0#HTML" expanded="true" />
-            <element signature="e#14587#14633#0#HTML" expanded="true" />
+            <element signature="e#13960#13984#0#HTML" expanded="true" />
+            <element signature="e#14300#14346#0#HTML" expanded="true" />
+            <element signature="e#14721#14767#0#HTML" expanded="true" />
+            <element signature="e#15157#15203#0#HTML" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/query_functions.py">
+    <entry file="file://$PROJECT_DIR$/app/templates/base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="910" max-vertical-offset="1581">
-          <caret line="71" column="0" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.19077568" vertical-offset="198" max-vertical-offset="2244">
-          <caret line="17" column="4" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="4" />
+        <state vertical-scroll-proportion="0.6629956" vertical-offset="515" max-vertical-offset="986">
+          <caret line="48" column="49" selection-start-line="48" selection-start-column="49" selection-end-line="48" selection-end-column="49" />
           <folding>
-            <element signature="e#0#19#0" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#ul#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>

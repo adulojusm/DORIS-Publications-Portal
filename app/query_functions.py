@@ -50,7 +50,7 @@ def process_query(search, agencies_selected, categories_selected, types_selected
 	else:
 		final_filter = intermediate_filter
 
-	process_time_elapsed = (time.clock() - process_time_start)
+	process_time_elapsed = format((time.clock() - process_time_start), '.2f')
 
 	return final_filter, process_time_elapsed
 

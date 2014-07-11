@@ -189,59 +189,71 @@
 </div>
 
 <div id="main" onscroll="$.jStorage.set('scrollPosition', this.scrollTop);">
-	<div class="col-md-12">
-        {% for result in results %}
-        <div class="row">
-            <div class="col-md-12">
-                <div class="panel panel-result">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">{{ result.title }}</h3>
-                    </div>
-                    <div class="panel-body">
-                        <h5><b>{{ result.agency }}</b></h5>
-                        <h5>{{ result.category }}</h5>
-                        <p>
-                            <small>{{ result.date_created }}</small>
-                            <small style="padding-left:2em">{{ result.type }}</small>
-                        </p>
-                        <p> {{ result.description }} </p>
-                        <p>
-                            {% if result.url != '' %}
-                            <form method="get" action="{{ url_for('publication',id = result.id) }}" style="margin-left: 0; display: inline-block;">
-                                <button type="submit" class="btn btn-sm btn-nyc">
-                                    <span class="glyphicon glyphicon-search"></span> View
-                                </button>
-                            </form>
-                            {% else %}
-                            <form method="get" action="404" style="margin-left: 0; display: inline-block;">
-                                <button type="submit" class="btn btn-sm btn-nyc">
-                                    <span class="glyphicon glyphicon-search"></span> View
-                                </button>
-                            </form>
-                            {% endif %}
+    {% if not length %}
+        <div class="col-md-12">
+            <p>Your search did not return any results. Please revise your choice of filter(s). </p>
+            <p>Suggestions:</p>
+            <ul>
+                <li>Change your filter(s)</li>
+                <li>Return to the previous page</li>
+                <li>Start a new search</li>
+                <li>Simplify your search</li>
+            </ul>
+        </div>
+    {% else %}
+        <div class="col-md-12">
+            {% for result in results %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-result">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">{{ result.title }}</h3>
+                        </div>
+                        <div class="panel-body">
+                            <h5><b>{{ result.agency }}</b></h5>
+                            <h5>{{ result.category }}</h5>
+                            <p>
+                                <small>{{ result.date_created }}</small>
+                                <small style="padding-left:2em">{{ result.type }}</small>
+                            </p>
+                            <p> {{ result.description }} </p>
+                            <p>
+                                {% if result.url != '' %}
+                                <form method="get" action="{{ url_for('publication',id = result.id) }}" style="margin-left: 0; display: inline-block;">
+                                    <button type="submit" class="btn btn-sm btn-nyc">
+                                        <span class="glyphicon glyphicon-search"></span> View
+                                    </button>
+                                </form>
+                                {% else %}
+                                <form method="get" action="404" style="margin-left: 0; display: inline-block;">
+                                    <button type="submit" class="btn btn-sm btn-nyc">
+                                        <span class="glyphicon glyphicon-search"></span> View
+                                    </button>
+                                </form>
+                                {% endif %}
 
-                            <form method="get" action="{{ result.url }}" style="margin-left: 0; display: inline-block;">
-                                <button type="submit" class="btn btn-sm btn-nyc">
-                                    <span class="glyphicon glyphicon-save"></span> Save
-                                </button>
-                            </form>
-                        </p>
+                                <form method="get" action="{{ result.url }}" style="margin-left: 0; display: inline-block;">
+                                    <button type="submit" class="btn btn-sm btn-nyc">
+                                        <span class="glyphicon glyphicon-save"></span> Save
+                                    </button>
+                                </form>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        {% endfor %}
-        {% if length > 10 %}
-        <ul class="pagination">
-            <li {% if page_id == 1 %}class="disabled"{% endif %}><a href="{{ url_for('results',page_id = page_id-1) }}">&laquo;</a></li>
-            {% for i in range(1,page_num+1) %}
-            <li {% if page_id == i %}class="active"{% endif %}><a href="{{ url_for('results',page_id=i) }}" onclick="$.jStorage.set('scrollPosition', 0);">{{ i }}</a></li>
             {% endfor %}
-            <li {% if page_id == page_num %}class="disabled"{% endif %}><a href="{{ url_for('results',page_id = page_id+1) }}">&raquo;</a></li>
-        </ul>
+            {% if length > 10 %}
+            <ul class="pagination" onclick="$.jStorage.set('scrollPosition', 0);">
+                <li {% if page_id == 1 %}class="disabled"{% endif %}><a href="{{ url_for('results',page_id = page_id-1) }}">&laquo;</a></li>
+                {% for i in range(1,page_num+1) %}
+                <li {% if page_id == i %}class="active"{% endif %}><a href="{{ url_for('results',page_id=i) }}">{{ i }}</a></li>
+                {% endfor %}
+                <li {% if page_id == page_num %}class="disabled"{% endif %}><a href="{{ url_for('results',page_id = page_id+1) }}">&raquo;</a></li>
+            </ul>
+            {% endif %}
         {% endif %}
 	</div> <!-- col-md-12 -->
 </div>
-
 
 {% endblock %}
