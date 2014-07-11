@@ -16,7 +16,12 @@ def index():
 def results():
 	if 'sort' not in session:
 		session['sort'] = 'Relevance'
-
+	if 'page_num' not in session:
+		session['page_num'] = 1
+	if 'page_id' not in session:
+		session['page_id'] = 1
+	if 'length' not in session:
+		session['length'] = 0
 	if request.method == 'POST':
 		if request.form['btn'] == "Search":
 
@@ -34,15 +39,18 @@ def results():
 				flash('Please enter a search or select a filter.')
 				return redirect(url_for('index'))
 
-			results, time = process_query(search, agencies, categories, types)
-
-			if len(results):
-				return render_template("res.html", search=search, results=results, time=time, length=len(results), method='post', sort_method=sort_method,agencies=agencies,categories=categories,types=types)
+			res, time = process_query(search, agencies, categories, types)
+			session['length'] = len(res)
+			if session['length']:
+				session['page_num'] = int(len(res)/10)+1
+				res = res[:10]
+				return render_template("results.html", search=search, results=res, time=time, length=session['length'], method='post', sort_method=sort_method, page_num=int(session['page_num']), page_id=int(session['page_id']))
 			else:
 				flash('No results found')
 				return redirect(url_for('index'))
 
 		if request.form['btn'] == "Refine Search":
+			session['page_id'] = 1
 			agencies = request.form.getlist('agency[]')
 			session['ref_agencies'] = agencies
 			categories = request.form.getlist('category[]')
@@ -51,9 +59,13 @@ def results():
 			session['ref_types'] = types
 
 			if request.form.getlist('agency[]') or request.form.getlist('category[]') or request.form.getlist('type[]'):
-				results, time = process_query(session['search'], agencies, categories, types)
+				res, time = process_query(session['search'], agencies, categories, types)
+				session['length'] = len(res)
+				session['page_num'] = int(len(res)/10)+1
 			else:
-				results, time = process_query(session['search'], [], [], [])
+				res, time = process_query(session['search'], [], [], [])
+				session['length'] = len(res)
+				session['page_num'] = int(len(res)/10)+1
 
 	if 'ref_agencies' not in session:
 		session['ref_agencies'] = session['agencies']
@@ -64,15 +76,22 @@ def results():
 
 	if request.method == 'GET':
 		if request.args.get('back'):
-			results, time = process_query(session['search'], session['ref_agencies'], session['ref_categories'], session['ref_types'])
+			res, time = process_query(session['search'], session['ref_agencies'], session['ref_categories'], session['ref_types'])
 
 		if request.args.get('sort'):
-			results, time = process_query(session['search'], session['ref_agencies'], session['ref_categories'], session['ref_types'])
+			res, time = process_query(session['search'], session['ref_agencies'], session['ref_categories'], session['ref_types'])
 			session['sort'] = request.args.get('sort')
+			session['page_id'] = 1
 
-	results = sort_search(results, session['sort'])
+		if request.args.get('page_id'):
+			session['page_id'] = request.args.get('page_id')
+			res, time = process_query(session['search'], session['ref_agencies'], session['ref_categories'], session['ref_types'])
 
-	return render_template("res.html", search=session['search'], results=results, time=time, length=len(results), sort_method=session['sort'])
+	start = (int(session['page_id'])*10)-10
+	res = sort_search(res, session['sort'])
+	res = res[start:start+9]
+
+	return render_template("results.html", search=session['search'], results=res, time=time, length=session['length'], sort_method=session['sort'], page_num=int(session['page_num']), page_id=int(session['page_id']))
 
 
 @app.route('/publication/<int:id>', methods=['GET'])
@@ -96,9 +115,13 @@ def about():
 def page_not_found(e):
 	return render_template('404.html'), 404
 
-
-# @app.route('/testdb')
-# def testdb():
-# 	#db.create_all()
+# @app.route('/whoosh_index_db')
+# def whoosh_index_db():
 # 	index_database()
+# 	return redirect(url_for('index'))
+#
+# @app.route('/create_db')
+# def create_db():
+# 	db.drop_all()
+# 	db.create_all()
 # 	return redirect(url_for('index'))

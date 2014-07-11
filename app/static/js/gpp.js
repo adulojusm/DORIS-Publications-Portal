@@ -38,3 +38,10 @@ $("#btn[value='Search']").click(storeFilters);
 $("a[href='../index']").on('click', function() { //reset jStorage upon redirecting to home page
     $.jStorage.flush();
 });
+
+$('.disabled').click(function(event){
+    event.preventDefault();
+});
+$('.active').click(function(event){
+    event.preventDefault();
+});
