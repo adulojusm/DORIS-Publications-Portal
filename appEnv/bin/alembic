@@ -1,4 +1,4 @@
-#!/export/local/admin/appEnv/bin/python
+#!/export/local/admin/government-publications-portal/appEnv/bin/python
 # EASY-INSTALL-ENTRY-SCRIPT: 'alembic==0.6.5','console_scripts','alembic'
 __requires__ = 'alembic==0.6.5'
 import sys

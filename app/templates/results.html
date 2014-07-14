@@ -249,7 +249,7 @@
                 {% for i in range(1,page_num+1) %}
                 <li {% if page_id == i %}class="active"{% endif %}><a href="{{ url_for('results',page_id=i) }}">{{ i }}</a></li>
                 {% endfor %}
-                <li {% if page_id == page_num %}class="disabled"{% endif %}><a href="{{ url_for('results',page_id = page_id) }}">&raquo;</a></li>
+                <li {% if page_id == page_num %}class="disabled"{% endif %}><a href="{{ url_for('results',page_id = page_id+1) }}">&raquo;</a></li>
             </ul>
             {% endif %}
         {% endif %}
