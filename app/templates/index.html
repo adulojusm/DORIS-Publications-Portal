@@ -26,7 +26,7 @@
 <div id="search">
 	<h2 style="margin-left: 130px;">Search Publications</h2>
 	<br>
-	<form id="index-form" class="form-search" role="form" method="post" action = '/results'>
+	<form id="index-form" class="form-search" role="form" method="post" action = '/results' style="margin-left: 60px;">
     {{ form.hidden_tag() }}
         {% with messages = get_flashed_messages() %}
             {% if messages %}

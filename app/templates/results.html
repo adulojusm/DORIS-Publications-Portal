@@ -4,14 +4,15 @@
 		
 <div id="sidebar">
 	<div class="col-md-12">
-		<div class="navbar navbar-fixed-top" style="top: 60px; padding-left: 15px;">
-			<a type="button" class="btn btn-nyc" href="../index">Start a New Search</a>
-		</div>
-        <br><br>
-        <form class="form-search" role="form" method="post" action = '/results' style="margin-left: 0;">
-
+		<form id="result-form" class="form-search" role="form" method="post" action = '/results'>
+			<div class="navbar navbar-fixed-top" style="top: 60px; padding-left: 15px; max-width: 270px;">
+					{{ form.user_input(class="form-control", placeholder=search) }}
+				<!-- <a type="button" class="btn btn-nyc" href="../index">Start a New Search</a>-->
+			</div>
+			<br>
+        <!-- <form class="form-search" role="form" method="post" action = '/results'> -->
             <div id="selects">
-                <input type="submit" class="btn btn-nyc" id="btn" name="btn" value="Refine Search" onclick="$.jStorage.set('scrollPosition', 0);">
+                <input type="submit" class="btn btn-nyc" id="btn" name="btn" value="Refine / Search" onclick="$.jStorage.set('scrollPosition', 0);">
                 <br><br>
                 <select name="agency[]" id="agencies" class="selectpicker input-medium" multiple data-live-search="true" style="display: none;">
                     <option value="Aging" >Aging</option>
@@ -219,20 +220,20 @@
                             <p> {{ result.description }} </p>
                             <p>
                                 {% if result.url != '' %}
-                                <form method="get" action="{{ url_for('publication',id = result.id) }}" style="margin-left: 0; display: inline-block;">
+                                <form method="get" action="{{ url_for('publication',id = result.id) }}" style="display: inline-block;">
                                     <button type="submit" class="btn btn-sm btn-nyc">
                                         <span class="glyphicon glyphicon-search"></span> View
                                     </button>
                                 </form>
                                 {% else %}
-                                <form method="get" action="404" style="margin-left: 0; display: inline-block;">
-                                    <button type="submit" class="btn btn-sm btn-nyc">
+                                <form method="get" action="404" style="display: inline-block;">
+                                    <button type="submit" class="btn btn-sm btn-danger">
                                         <span class="glyphicon glyphicon-search"></span> View
                                     </button>
                                 </form>
                                 {% endif %}
 
-                                <form method="get" action="{{ result.url }}" style="margin-left: 0; display: inline-block;">
+                                <form method="get" action="{{ result.url }}" style="display: inline-block;">
                                     <button type="submit" class="btn btn-sm btn-nyc">
                                         <span class="glyphicon glyphicon-save"></span> Save
                                     </button>
@@ -243,16 +244,10 @@
                 </div>
             </div>
             {% endfor %}
-            {% if length > 10 %}
-            <ul class="pagination" onclick="$.jStorage.set('scrollPosition', 0);">
-                <li {% if page_id == 1 %}class="disabled"{% endif %}><a href="{{ url_for('results',page_id = page_id-1) }}">&laquo;</a></li>
-                {% for i in range(1,page_num+1) %}
-                <li {% if page_id == i %}class="active"{% endif %}><a href="{{ url_for('results',page_id=i) }}">{{ i }}</a></li>
-                {% endfor %}
-                <li {% if page_id == page_num %}class="disabled"{% endif %}><a href="{{ url_for('results',page_id = page_id+1) }}">&raquo;</a></li>
-            </ul>
-            {% endif %}
         {% endif %}
+        <div onclick="$.jStorage.set('scrollPosition',0);">
+        	{{ pagination.links|safe }}
+        </div>
 	</div> <!-- col-md-12 -->
 </div>
 
