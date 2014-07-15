@@ -150,11 +150,12 @@ body {
 	overflow:auto;
 }
 
-.form-control::-webkit-input-placeholder {
-  color: #a60808;
-}
+/*.form-control::-webkit-input-placeholder {
+  color: #FF0000;
+}*/
 
 [placeholder]:focus::-webkit-input-placeholder {
   transition: opacity 0.25s 0.25s ease;
+  color: purple;
   opacity: 0;
 }

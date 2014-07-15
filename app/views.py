@@ -11,14 +11,13 @@ from flask.ext.paginate import Pagination
 @app.route('/index', methods=['GET', 'POST'])
 def index():
 	form = SearchForm()
-	#session.clear()
 	return render_template("index.html", form=form)
 		
 
 
 @app.route('/results', methods=['GET', 'POST'])
 def results():
-	form = SearchForm()
+	session['fulltext'] = ''
 	#Set initial session variables
 	if 'sort' not in session:
 		session['sort'] = 'Relevance'
@@ -41,11 +40,13 @@ def results():
 					
 		#POST - Refine Search
 		if request.form['btn'] == "Refine / Search":
-			if request.form.get('user_input') != '' and request.form.get('user_input') != None:
-				session["search"] = request.form.get('user_input')
+			if request.form.get('user_input'):
+				session['search'] = request.form.get('user_input')
 			session['agencies'] = request.form.getlist('agency[]')
 			session['categories'] = request.form.getlist('category[]')
 			session['types'] = request.form.getlist('type[]')
+			if request.form.get('fulltext'):
+				session['fulltext'] = request.form.get('text_search')
 
 	#On GET Request
 	if request.method == 'GET':
@@ -76,8 +77,8 @@ def results():
 							length=session['length'], 
 							method='post', 
 							sort_method=session['sort'], 
-							pagination=pagination, 
-							form=form)
+							pagination=pagination,
+							fulltext=session['fulltext'])
 
 
 @app.route('/publication/<int:id>', methods=['GET'])

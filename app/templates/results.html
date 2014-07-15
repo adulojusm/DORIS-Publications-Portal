@@ -6,7 +6,7 @@
 	<div class="col-md-12">
 		<form id="result-form" class="form-search" role="form" method="post" action = '/results'>
 			<div class="navbar navbar-fixed-top" style="top: 60px; padding-left: 15px; max-width: 270px;">
-					{{ form.user_input(class="form-control", placeholder=search) }}
+					<input type="text" class = "form-control" name="user_input" placeholder = {{search}} >
 			</div>
 			<br>
             <div id="selects">
@@ -137,6 +137,12 @@
                     <option value="Report">Report</option>
                 </select>
             </div>
+			<br>
+			{% if fulltext != '' %}
+			<input type="text" class = "form-control" name="text_search" placeholder = {{ fulltext }}>
+			{% else %}
+			<input type="text" class = "form-control" name="text_search" placeholder = "Enter Full Text Search">
+			{% endif %}
         </form>
 	</div>
 </div>

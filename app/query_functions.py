@@ -2,7 +2,7 @@ from models import Document
 from sqlalchemy.orm import defer
 import time
 
-def process_query(search, agencies_selected, categories_selected, types_selected):
+def process_query(search, agencies_selected, categories_selected, types_selected,hasText=False):
 	"""
 	Retrieves search results based on search value and selected filters
 	:param search: user input query

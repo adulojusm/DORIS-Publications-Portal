@@ -11,6 +11,14 @@ function maintainSelect(id, jStoreVar, selectList) {
     }
 }
 
+function deselect(id, noneSelText, selectList) {
+	$(id).val('');
+	$(id).next().children('button').attr('title', noneSelText);
+    $(id).next().children('button').children('.filter-option').text(noneSelText);
+	for (var i = 0; i < selectList.length; i++)
+		$(id).next().children('.dropdown-menu').children('ul').children("li[rel='%s']".replace('%s', i)).attr('class', '');
+}
+
 function storeFilters() {
     $.jStorage.set('agencyVal', $('#agencies').val());
     $.jStorage.set('categoryVal', $('#categories').val());
@@ -40,6 +48,12 @@ $(window).on('load', function () {
 $("#btn[value='Refine / Search']").click(storeFilters);
 
 $("#btn[value='Search']").click(storeFilters);
+
+$("#btn[value='Remove All']").on('click', function() {
+	deselect('#agencies', 'All Agencies', agencies);
+	deselect('#categories', 'All Categories', categories);
+	deselect('#types', 'All Types', types);
+});
 
 //reset jStorage upon redirecting to home page
 $("a[href='../index']").on('click', function() {

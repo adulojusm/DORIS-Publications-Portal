@@ -38,7 +38,7 @@
 				{% with msgs = get_flashed_messages() %}
 				{% if msgs %}
 				  {% for msg in msgs %}
-					<input type="text" class = "form-control" name="user_input" placeholder = "Please enter a search" style = "border-color: #FF0000;box-shadow: 0 0 10px #FF0000" >
+					<input type="text" class = "form-control" name="user_input" placeholder = "Please enter a search" style = "border-color: #FF0000; box-shadow: 0 0 10px #FF0000" >
 				  {% endfor %}
 				{% else %}
 					<input type="text" class = "form-control" name="user_input" >
@@ -166,6 +166,7 @@
                         <option value="Technology">Technology</option>
                         <option value="Transportation">Transportation</option>
                     </select>
+					<button type="button" class="btn btn-nyc" id="btn" style="margin-left:40px;" value="Remove All">Remove All</button>
                     <br><br>
                     <select name="type[]" id="types" onfocus="skipcycle=true" onblur="skipcycle=false" class="selectpicker" multiple data-live-search="true" style="display: none;">
                         <option value="Annual Report">Annual Report</option>
@@ -183,7 +184,7 @@
                         <option value="Report">Report</option>
                     </select>
 				</div>
-				<button type="button" class="btn btn-nyc" id="btn" style="margn-left: 15px;">Remove All</button>
+				
 			</div>
 		</div>
 	</form>
