@@ -26,21 +26,25 @@
 <div id="search">
 	<h2 style="margin-left: 130px;">Search Publications</h2>
 	<br>
+	 
 	<form id="index-form" class="form-search" role="form" method="post" action = '/results' style="margin-left: 60px;">
-    {{ form.hidden_tag() }}
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class="flash">
-                    {% for message in messages %}
-                        {{ message }}
-                    {% endfor %}
-                </div>
-            {% endif %}
-        {% endwith %}
+		
+		{{ form.hidden_tag()}}
+        
 	    <div class="form-group">
-
+			
 			<div class="col-sm-9">
-                {{ form.user_input(class="form-control") }}
+                <!--{{ form.user_input(class="form-control") }} -->
+				{% with msgs = get_flashed_messages() %}
+				{% if msgs %}
+				  {% for msg in msgs %}
+					<input type="text" class = "form-control" name="user_input" placeholder = "Please enter a search" style = "border-color: #FF0000;box-shadow: 0 0 10px #FF0000" >
+				  {% endfor %}
+				{% else %}
+					<input type="text" class = "form-control" name="user_input" >
+				{% endif %}
+			  {% endwith %}
+				
 			</div>
 
             <input type="submit" class="btn btn-nyc" id="btn" name="btn" value="Search">
@@ -179,6 +183,7 @@
                         <option value="Report">Report</option>
                     </select>
 				</div>
+				<button type="button" class="btn btn-nyc" id="btn" style="margn-left: 15px;">Remove All</button>
 			</div>
 		</div>
 	</form>

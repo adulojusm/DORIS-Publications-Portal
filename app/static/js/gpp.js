@@ -1,7 +1,7 @@
 function maintainSelect(id, jStoreVar, selectList) {
     if ($.jStorage.get(jStoreVar)) {
         var agencySel = $.jStorage.get(jStoreVar).join(", "); //get stored select-values from previous page filters
-        $(id).val(agencySel); //set the values for current page
+        $(id).val($.jStorage.get(jStoreVar)); //set the values for current page
         $(id).next().children('button').attr('title', agencySel); //set value="title" to select-value list
         $(id).next().children('button').children('.filter-option').text(agencySel); //set text to select-value list
         for (var i = 0; i < $.jStorage.get(jStoreVar).length; i++) { //activate each value manually (for tick marks -- purely aesthetic)
@@ -30,6 +30,9 @@ $(window).on('load', function () {
     maintainSelect('#categories', 'categoryVal', categories);
     maintainSelect('#types', 'typeVal', types);
     
+    $('.pagination').on('click', function() {
+    	$.jStorage.set('scrollPosition',0);
+    });
     //make sure paginate works appropriately to boostrap css standard
     $('.pagination').children('ul').attr('class', 'pagination')
 });

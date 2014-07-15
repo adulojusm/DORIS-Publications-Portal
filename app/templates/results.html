@@ -7,10 +7,8 @@
 		<form id="result-form" class="form-search" role="form" method="post" action = '/results'>
 			<div class="navbar navbar-fixed-top" style="top: 60px; padding-left: 15px; max-width: 270px;">
 					{{ form.user_input(class="form-control", placeholder=search) }}
-				<!-- <a type="button" class="btn btn-nyc" href="../index">Start a New Search</a>-->
 			</div>
 			<br>
-        <!-- <form class="form-search" role="form" method="post" action = '/results'> -->
             <div id="selects">
                 <input type="submit" class="btn btn-nyc" id="btn" name="btn" value="Refine / Search" onclick="$.jStorage.set('scrollPosition', 0);">
                 <br><br>
@@ -245,9 +243,7 @@
             </div>
             {% endfor %}
         {% endif %}
-        <div onclick="$.jStorage.set('scrollPosition',0);">
-        	{{ pagination.links|safe }}
-        </div>
+        {{ pagination.links|safe }}
 	</div> <!-- col-md-12 -->
 </div>
 

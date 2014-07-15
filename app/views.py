@@ -11,8 +11,9 @@ from flask.ext.paginate import Pagination
 @app.route('/index', methods=['GET', 'POST'])
 def index():
 	form = SearchForm()
-	session.clear()
+	#session.clear()
 	return render_template("index.html", form=form)
+		
 
 
 @app.route('/results', methods=['GET', 'POST'])
@@ -35,9 +36,9 @@ def results():
 			session['types'] = request.form.getlist('type[]')
 
 			if not session['search'] and not session['agencies'] and not session['categories'] and not session['types']:
-				flash('Please enter a search or select a filter.')
+				flash('Enter a search entry')
 				return redirect(url_for('index'))
-				
+					
 		#POST - Refine Search
 		if request.form['btn'] == "Refine / Search":
 			if request.form.get('user_input') != '' and request.form.get('user_input') != None:
