@@ -1,3 +1,16 @@
+//toggle element display
+function toggle(obj) {
+	var element = document.getElementById(obj);
+
+	if (element.style.display != "none") {
+		element.style.display = "none";
+	}
+	else {
+		element.style.display = "";
+	}
+}
+
+	
 function maintainSelect(id, jStoreVar, selectList) {
     if ($.jStorage.get(jStoreVar)) {
         var agencySel = $.jStorage.get(jStoreVar).join(", "); //get stored select-values from previous page filters

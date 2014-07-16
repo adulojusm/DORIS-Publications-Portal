@@ -135,3 +135,4 @@ class Document(db.Model):
 		'Report'), nullable=False)
 	url = db.Column(db.String(255), nullable=False)
 	pub_or_foil = db.Column(db.Enum('Publication', 'FOIL'), nullable=False)
+# 	docText = db.Column(db.MEDIUMTEXT)

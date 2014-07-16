@@ -10,19 +10,6 @@
 	}
 </style>
 
-<script>
-	function toggle(obj) {
-		var element = document.getElementById(obj);
-
-		if (element.style.display != "none") {
-			element.style.display = "none";
-		}
-		else {
-			element.style.display = "";
-		}
-	}
-</script>
-
 <div id="search">
 	<h2 style="margin-left: 130px;">Search Publications</h2>
 	<br>
@@ -34,17 +21,16 @@
 	    <div class="form-group">
 			
 			<div class="col-sm-9">
-                <!--{{ form.user_input(class="form-control") }} -->
+				<!--{{ form.user_input(class="form-control") }} -->
 				{% with msgs = get_flashed_messages() %}
-				{% if msgs %}
-				  {% for msg in msgs %}
-					<input type="text" class = "form-control" name="user_input" placeholder = "Please enter a search" style = "border-color: #FF0000; box-shadow: 0 0 10px #FF0000" >
-				  {% endfor %}
-				{% else %}
-					<input type="text" class = "form-control" name="user_input" >
-				{% endif %}
-			  {% endwith %}
-				
+					{% if msgs %}
+						{% for msg in msgs %}
+							<input type="text" class = "form-control" name="user_input" placeholder="Please enter a search" style="border-color: #FF0000; box-shadow: 0 0 10px #FF0000;">
+						{% endfor %}
+					{% else %}
+						<input type="text" class = "form-control" name="user_input" >
+					{% endif %}
+				{% endwith %}
 			</div>
 
             <input type="submit" class="btn btn-nyc" id="btn" name="btn" value="Search">
@@ -166,7 +152,6 @@
                         <option value="Technology">Technology</option>
                         <option value="Transportation">Transportation</option>
                     </select>
-					<button type="button" class="btn btn-nyc" id="btn" style="margin-left:40px;" value="Remove All">Remove All</button>
                     <br><br>
                     <select name="type[]" id="types" onfocus="skipcycle=true" onblur="skipcycle=false" class="selectpicker" multiple data-live-search="true" style="display: none;">
                         <option value="Annual Report">Annual Report</option>
@@ -183,6 +168,8 @@
                         <option value="Staff Report">Staff Report</option>
                         <option value="Report">Report</option>
                     </select>
+					<br><br>
+					<button type="button" class="btn btn-coral" id="btn" value="Remove All">Remove All</button>
 				</div>
 				
 			</div>

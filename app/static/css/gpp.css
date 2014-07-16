@@ -1,5 +1,4 @@
-/* Bootstrap Additions */
-
+/* btn-nyc */
 .btn-nyc {
   color: #fff;
   background-color: #6b27ca;
@@ -34,14 +33,30 @@ fieldset[disabled] .btn-nyc:active,
 .btn-nyc.disabled.active,
 .btn-nyc[disabled].active,
 fieldset[disabled] .btn-nyc.active {
-  background-color: #428bca;
-  border-color: #357ebd;
+  background-color: #8852d4;
+  border-color: #6027ae;
 }
-.btn-nyc .badge {
-  color: #428bca;
-  background-color: #fff;
+/* btn-coral */
+.btn-coral {
+  color: #fff;
+  background-color: #ff6666;
+  border-color: #e04a4a;
 }
-
+.btn-coral:hover,
+.btn-coral:focus,
+.btn-coral:active,
+.btn-coral.active,
+.open .dropdown-toggle.btn-coral {
+  color: #fff;
+  background-color: #ff4444;
+  border-color: #aa1313;
+}
+.btn-coral:active,
+.btn-coral.active,
+.open .dropdown-toggle.btn-coral {
+  background-image: none;
+}
+/* panel-result */
 .panel-result {
   border-color: #6b27ca;
 }
@@ -156,6 +171,6 @@ body {
 
 [placeholder]:focus::-webkit-input-placeholder {
   transition: opacity 0.25s 0.25s ease;
-  color: purple;
+/*   color: purple; */
   opacity: 0;
 }

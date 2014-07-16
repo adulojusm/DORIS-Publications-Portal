@@ -137,7 +137,9 @@
                     <option value="Report">Report</option>
                 </select>
             </div>
-			<br>
+            <br>
+            <button type="button" class="btn" id="btn" value="Remove All" style = "background-color:#FF6666;color:white">Remove Filters</button>
+			<br><br>
 			{% if fulltext != '' %}
 			<input type="text" class = "form-control" name="text_search" placeholder = {{ fulltext }}>
 			{% else %}
@@ -166,7 +168,6 @@
                 Found {{ length }} results for selected filters
             {% endif %}
         {% endif %}
-
     </h4>
     <ul class="nav navbar-nav navbar-right" style="padding-right: 30px">
         <div class="btn-group">
@@ -200,7 +201,7 @@
             <p>Suggestions:</p>
             <ul>
                 <li>Change your filter(s)</li>
-                <li>Return to the previous page</li>
+                <li>Remove all filters</li>
                 <li>Start a new search</li>
                 <li>Simplify your search</li>
             </ul>
@@ -229,19 +230,23 @@
                                         <span class="glyphicon glyphicon-search"></span> View
                                     </button>
                                 </form>
-                                {% else %}
-                                <form method="get" action="404" style="display: inline-block;">
-                                    <button type="submit" class="btn btn-sm btn-danger">
-                                        <span class="glyphicon glyphicon-search"></span> View
-                                    </button>
-                                </form>
-                                {% endif %}
-
-                                <form method="get" action="{{ result.url }}" style="display: inline-block;">
+								<form method="get" action="{{ result.url }}" style="display: inline-block;">
                                     <button type="submit" class="btn btn-sm btn-nyc">
                                         <span class="glyphicon glyphicon-save"></span> Save
                                     </button>
                                 </form>
+                                {% else %}
+                                <form method="get" action="404" style="display: inline-block;">
+                                    <button type="submit" class="btn btn-sm btn-nyc disabled">
+                                        <span class="glyphicon glyphicon-search"></span> View
+                                    </button>
+                                </form>
+								<form method="get" action="404" style="display: inline-block;">
+                                    <button type="submit" class="btn btn-sm btn-nyc disabled">
+                                        <span class="glyphicon glyphicon-save"></span> Save
+                                    </button>
+                                </form>
+                                {% endif %}
                             </p>
                         </div>
                     </div>
@@ -251,6 +256,6 @@
         {% endif %}
         {{ pagination.links|safe }}
 	</div> <!-- col-md-12 -->
-</div>
+</div> <!-- main -->
 
 {% endblock %}
