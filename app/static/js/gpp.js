@@ -10,6 +10,8 @@ function toggle(obj) {
 	}
 }
 
+//keep fulltext searchbox checked
+
 	
 function maintainSelect(id, jStoreVar, selectList) {
     if ($.jStorage.get(jStoreVar)) {

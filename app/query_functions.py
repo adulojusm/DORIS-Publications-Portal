@@ -1,8 +1,8 @@
-from models import Document
-from sqlalchemy.orm import defer
+from models import Document, CityRecord
+from sqlalchemy.orm import defer, load_only
 import time
 
-def process_query(search, agencies_selected, categories_selected, types_selected,hasText=False):
+def process_query(search, agencies_selected, categories_selected, types_selected, fulltext_checked):
 	"""
 	Retrieves search results based on search value and selected filters
 	:param search: user input query
@@ -17,9 +17,12 @@ def process_query(search, agencies_selected, categories_selected, types_selected
 
 	#initialize query or search based on user input
 	if search:
-		results = Document.query.options(defer('num_access')).whoosh_search(search)
+		if fulltext_checked:
+			results = CityRecord.query.whoosh_search(search)
+		else:
+			results = Document.query.whoosh_search(search)
 	else:
-		results = Document.query.options(defer('num_access'))
+		results = Document.query
 
 	#retrieve results object list
 	results = results.all()

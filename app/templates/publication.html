@@ -2,6 +2,12 @@
 {% block title %}View Publication{% endblock %}
 {% block content %}
 
+<style>
+	body {
+		padding-top: 101px;
+	}
+</style>
+
 <div id="main">
     {% if document_url %}
 	<embed src="{{ document_url }}" width="100%" height="98%" style="padding-left: 15px; padding-right: 15px;"></embed>

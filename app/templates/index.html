@@ -7,14 +7,14 @@
 		background-image: url(../static/images/background.jpg);
 		background-size: cover;
 		padding-top: 10%;
+		padding-bottom: 50%;
 	}
 </style>
 
 <div id="search">
 	<h2 style="margin-left: 130px;">Search Publications</h2>
 	<br>
-	 
-	<form id="index-form" class="form-search" role="form" method="post" action = '/results' style="margin-left: 60px;">
+	<form id="index-form" class="form-search" role="form" method="post" action='/results' style="margin-left: 60px;">
 		
 		{{ form.hidden_tag()}}
         
@@ -32,16 +32,16 @@
 					{% endif %}
 				{% endwith %}
 			</div>
-
+			
             <input type="submit" class="btn btn-nyc" id="btn" name="btn" value="Search">
-
-			<br>
-			<br>
+            <br><br>
+            <input type="checkbox" name="fulltext" style="margin-left: 15px"> Enable Full-Text Searching
+			<br><br>
 			<a type="button" class="btn btn-nyc" id="btn" href="javascript:;" onClick="toggle('hideaway')" style="margin-left: 15px;">
 				Filter&nbsp;
-				<span class="caret"></span></a>
-			<br>
-			<br>
+				<span class="caret"></span>
+			</a>
+			<br><br>
 			<div id="hideaway" style="display: none;">
 				<div id="selects" style="margin-left: 15px">
                     <select name="agency[]" id="agencies" class="selectpicker input-medium" multiple data-live-search="true" style="display: none;">

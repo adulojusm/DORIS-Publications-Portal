@@ -1,9 +1,9 @@
 from app import app
 from flask import Flask,render_template, request, flash, url_for, redirect, make_response, session, abort
 from forms import SearchForm
-from models import db, Document
+from models import db, Document, CityRecord
 from query_functions import process_query, sort_search
-from index_database import index_database
+from index_database import index_document, add_sample_entries, index_city_record
 from flask.ext.paginate import Pagination
 
 
@@ -12,9 +12,10 @@ from flask.ext.paginate import Pagination
 def index():
 	form = SearchForm()
 	session['sort']= 'Relevance'
-	session['fulltext'] = ''
+	session['fulltext'] = None
+	session['num_results'] = 10
+	session['list_view'] = 0
 	return render_template("index.html", form=form)
-		
 
 
 @app.route('/results', methods=['GET', 'POST'])
@@ -25,7 +26,13 @@ def results():
 		session['sort'] = 'Relevance'
 	if 'length' not in session:
 		session['length'] = 0
-		
+	if 'fulltext' not in session:
+		session['fulltext'] = None
+	if 'num_results' not in session:
+		session['num_results'] = 10
+	if 'list_view' not in session:
+		session['list_view'] = 0
+	
 	#On POST request
 	if request.method == 'POST':
 	
@@ -35,6 +42,7 @@ def results():
 			session['agencies'] = request.form.getlist('agency[]')
 			session['categories'] = request.form.getlist('category[]')
 			session['types'] = request.form.getlist('type[]')
+			session['fulltext'] = request.form.get('fulltext')
 
 			if not session['search'] and not session['agencies'] and not session['categories'] and not session['types']:
 				flash('')
@@ -47,8 +55,7 @@ def results():
 			session['agencies'] = request.form.getlist('agency[]')
 			session['categories'] = request.form.getlist('category[]')
 			session['types'] = request.form.getlist('type[]')
-			if request.form.get('fulltext'):
-				session['fulltext'] = request.form.get('text_search')
+			session['fulltext'] = request.form.get('fulltext')
 
 	#On GET Request
 	if request.method == 'GET':
@@ -57,8 +64,16 @@ def results():
 		if request.args.get('sort'):
 			session['sort'] = request.args.get('sort')
 
+		#GET - Num Results
+		if request.args.get('num_results'):
+			session['num_results'] = request.args.get('num_results')
+			
+		#GET - List view
+		if request.args.get('list_view'):
+			session['list_view'] = request.args.get('list_view')
+			
 	#retrieve results
-	res, time = process_query(session['search'], session['agencies'], session['categories'], session['types'])
+	res, time = process_query(session['search'], session['agencies'], session['categories'], session['types'], session['fulltext'])
 	res = sort_search(res, session['sort'])
 	session['length'] = len(res)
 	
@@ -67,12 +82,13 @@ def results():
 		page = int(request.args.get('page',1))
 	except ValueError:
 		page = 1
-	pagination = Pagination(page=page, total=session['length'], per_page=10, css_framework="boostrap3")
-	start = (page*10)-10
-	res = res[start:start+9]
-	
+	pagination = Pagination(page=page, total=session['length'], per_page=int(session['num_results']), css_framework="boostrap3")
+	start = page * int(session['num_results']) - int(session['num_results'])
+	res = res[start : start + int(session['num_results']) ]
+
 	#RENDER!
 	return render_template("results.html", 
+							start=start,
 							search=session['search'], 
 							results=res, 
 							time=time, 
@@ -80,12 +96,17 @@ def results():
 							method='post', 
 							sort_method=session['sort'], 
 							pagination=pagination,
-							fulltext=session['fulltext'])
+							fulltext=session['fulltext'],
+							num_results=int(session['num_results']),
+							list_view=int(session['list_view']))
 
 
 @app.route('/publication/<int:id>', methods=['GET'])
 def publication(id):
-	document = Document.query.filter(Document.id == id).first()
+	if id > 100000:
+		document = CityRecord.query.filter(CityRecord.id == id).first()
+	else:
+		document = Document.query.filter(Document.id == id).first()
 	document_title = document.title
 	document_url = document.url
 	# document.num_access += 1
@@ -106,13 +127,21 @@ def about():
 def page_not_found(e):
 	return render_template('404.html'), 404
 
-# @app.route('/whoosh_index_db')
-# def whoosh_index_db():
-# 	index_database()
-# 	return redirect(url_for('index'))
-#
-# @app.route('/create_db')
-# def create_db():
-# 	db.drop_all()
-# 	db.create_all()
-# 	return redirect(url_for('index'))
+
+@app.route('/create_db')
+def create_db():
+	db.drop_all()
+	db.create_all()
+	return redirect(url_for('index'))
+
+
+@app.route('/whoosh_index_db')
+def whoosh_index_db():
+	index_database()
+	return redirect(url_for('index'))
+
+	
+@app.route('/whoosh_index_cityrecord/<year>')
+def whoosh_index_cityrecord(year):
+	index_city_record(year)
+	return redirect(url_for('index'))
