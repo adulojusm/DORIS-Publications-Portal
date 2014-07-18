@@ -54,3 +54,6 @@ target/
 
 # Whoosh
 whoosh_index/
+
+# Virtualenv
+appEnv/
