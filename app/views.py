@@ -10,138 +10,141 @@ from flask.ext.paginate import Pagination
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 def index():
-	form = SearchForm()
-	session['sort']= 'Relevance'
-	session['fulltext'] = None
-	session['num_results'] = 10
-	session['list_view'] = 0
-	return render_template("index.html", form=form)
+    form = SearchForm()
+    session['sort']= 'Relevance'
+    session['fulltext'] = None
+    session['num_results'] = 10
+    session['list_view'] = 0
+    session['page'] = 1
+    return render_template("index.html", form=form)
 
 
 @app.route('/results', methods=['GET', 'POST'])
 def results():
-	
-	#Set initial session variables
-	if 'sort' not in session:
-		session['sort'] = 'Relevance'
-	if 'length' not in session:
-		session['length'] = 0
-	if 'fulltext' not in session:
-		session['fulltext'] = None
-	if 'num_results' not in session:
-		session['num_results'] = 10
-	if 'list_view' not in session:
-		session['list_view'] = 0
-	
-	#On POST request
-	if request.method == 'POST':
-	
-		#POST - Search
-		if request.form['btn'] == "Search":
-			session['search'] = request.form.get('user_input')
-			session['agencies'] = request.form.getlist('agency[]')
-			session['categories'] = request.form.getlist('category[]')
-			session['types'] = request.form.getlist('type[]')
-			session['fulltext'] = request.form.get('fulltext')
 
-			if not session['search'] and not session['agencies'] and not session['categories'] and not session['types']:
-				flash('')
-				return redirect(url_for('index'))
-					
-		#POST - Refine Search
-		if request.form['btn'] == "Refine / Search":
-			if request.form.get('user_input'):
-				session['search'] = request.form.get('user_input')
-			session['agencies'] = request.form.getlist('agency[]')
-			session['categories'] = request.form.getlist('category[]')
-			session['types'] = request.form.getlist('type[]')
-			session['fulltext'] = request.form.get('fulltext')
+    #Set initial session variables
+    if 'sort' not in session:
+        session['sort'] = 'Relevance'
+    if 'length' not in session:
+        session['length'] = 0
+    if 'fulltext' not in session:
+        session['fulltext'] = None
+    if 'num_results' not in session:
+        session['num_results'] = 10
+    if 'list_view' not in session:
+        session['list_view'] = 0
+    if 'page' not in session:
+        session['page'] = 1
+    
+    #On POST request
+    if request.method == 'POST':
+    
+        #POST - Search
+        if request.form['btn'] == "Search":
+            session['search'] = request.form.get('user_input')
+            session['agencies'] = request.form.getlist('agency[]')
+            session['categories'] = request.form.getlist('category[]')
+            session['types'] = request.form.getlist('type[]')
+            session['fulltext'] = request.form.get('fulltext')
+            
+            if not session['search'] and not session['agencies'] and not session['categories'] and not session['types']:
+                flash('')
+                return redirect(url_for('index'))
+                    
+        #POST - Refine Search
+        if request.form['btn'] == "Refine / Search":
+            if request.form.get('user_input'):
+                session['search'] = request.form.get('user_input')
+            session['agencies'] = request.form.getlist('agency[]')
+            session['categories'] = request.form.getlist('category[]')
+            session['types'] = request.form.getlist('type[]')
+            session['fulltext'] = request.form.get('fulltext')
+            
+        session['page'] = 1
 
-	#On GET Request
-	if request.method == 'GET':
-		
-		#GET - Sort
-		if request.args.get('sort'):
-			session['sort'] = request.args.get('sort')
+    #On GET Request
+    if request.method == 'GET':
+        
+        #GET - Sort
+        if request.args.get('sort'):
+            session['sort'] = request.args.get('sort')
 
-		#GET - Num Results
-		if request.args.get('num_results'):
-			session['num_results'] = request.args.get('num_results')
-			
-		#GET - List view
-		if request.args.get('list_view'):
-			session['list_view'] = request.args.get('list_view')
-			
-	#retrieve results
-	res, time = process_query(session['search'], session['agencies'], session['categories'], session['types'], session['fulltext'])
-	res = sort_search(res, session['sort'])
-	session['length'] = len(res)
-	
-	#initiate pagination
-	try:
-		page = int(request.args.get('page',1))
-	except ValueError:
-		page = 1
-	pagination = Pagination(page=page, total=session['length'], per_page=int(session['num_results']), css_framework="boostrap3")
-	start = page * int(session['num_results']) - int(session['num_results'])
-	res = res[start : start + int(session['num_results']) ]
+        #GET - Num Results
+        if request.args.get('num_results'):
+            session['num_results'] = request.args.get('num_results')
+            
+        #GET - List view
+        if request.args.get('list_view'):
+            session['list_view'] = request.args.get('list_view')
+            
+    #retrieve results
+    res, time = process_query(session['search'], session['agencies'], session['categories'], session['types'], session['fulltext'])
+    res = sort_search(res, session['sort'])
+    session['length'] = len(res)
+    
+    #initiate pagination
+    session['page'] = int(request.args.get('page', session['page']))
+        
+    pagination = Pagination(page=session['page'], total=session['length'], per_page=int(session['num_results']), css_framework="boostrap3")
+    start = session['page'] * int(session['num_results']) - int(session['num_results'])
+    res = res[start : start + int(session['num_results']) ]
 
-	#RENDER!
-	return render_template("results.html", 
-							start=start,
-							search=session['search'], 
-							results=res, 
-							time=time, 
-							length=session['length'], 
-							method='post', 
-							sort_method=session['sort'], 
-							pagination=pagination,
-							fulltext=session['fulltext'],
-							num_results=int(session['num_results']),
-							list_view=int(session['list_view']))
+    #RENDER!
+    return render_template("results.html", 
+                            start=start,
+                            search=session['search'], 
+                            results=res, 
+                            time=time, 
+                            length=session['length'], 
+                            method='post', 
+                            sort_method=session['sort'], 
+                            pagination=pagination,
+                            fulltext=session['fulltext'],
+                            num_results=int(session['num_results']),
+                            list_view=int(session['list_view']))
 
 
 @app.route('/publication/<int:id>', methods=['GET'])
 def publication(id):
-	if id > 100000:
-		document = CityRecord.query.filter(CityRecord.id == id).first()
-	else:
-		document = Document.query.filter(Document.id == id).first()
-	document_title = document.title
-	document_url = document.url
-	# document.num_access += 1
-	# db.session.commit()
-	# response = make_response(url)
-	# response.headers['Content-Type'] = 'application/pdf'
-	# response.headers['Content-Disposition'] = 'attachment; filename=%s.pdf' % document.filename
-	# return response
-	return render_template("publication.html", document_title=document_title, document_url=document_url)
+    if id > 100000:
+        document = CityRecord.query.filter(CityRecord.id == id).first()
+    else:
+        document = Document.query.filter(Document.id == id).first()
+    document_title = document.title
+    document_url = document.url
+    # document.num_access += 1
+    # db.session.commit()
+    # response = make_response(url)
+    # response.headers['Content-Type'] = 'application/pdf'
+    # response.headers['Content-Disposition'] = 'attachment; filename=%s.pdf' % document.filename
+    # return response
+    return render_template("publication.html", document_title=document_title, document_url=document_url)
 
 
 @app.route('/about')
 def about():
-	return render_template("about.html")
+    return render_template("about.html")
 
 
 @app.errorhandler(404)
 def page_not_found(e):
-	return render_template('404.html'), 404
+    return render_template('404.html'), 404
 
 
-@app.route('/create_db')
-def create_db():
-	db.drop_all()
-	db.create_all()
-	return redirect(url_for('index'))
-
-
-@app.route('/whoosh_index_db')
-def whoosh_index_db():
-	index_database()
-	return redirect(url_for('index'))
-
-	
-@app.route('/whoosh_index_cityrecord/<year>')
-def whoosh_index_cityrecord(year):
-	index_city_record(year)
-	return redirect(url_for('index'))
+# @app.route('/create_db')
+# def create_db():
+#     db.drop_all()
+#     db.create_all()
+#     return redirect(url_for('index'))
+# 
+# 
+# @app.route('/whoosh_index_db')
+# def whoosh_index_db():
+#     index_database()
+#     return redirect(url_for('index'))
+# 
+#     
+# @app.route('/whoosh_index_cityrecord/<year>')
+# def whoosh_index_cityrecord(year):
+#     index_city_record(year)
+#     return redirect(url_for('index'))

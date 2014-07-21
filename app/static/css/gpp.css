@@ -72,8 +72,6 @@ fieldset[disabled] .btn-nyc.active {
   border-bottom-color: #6b27ca;
 }
 
-/* Intended for 'index.html' */
-
 /*
 .dropdown-menu{
 	padding: 15px;
@@ -131,8 +129,6 @@ h2 {
 	float: right;
 }
 
-/* Intended for 'results.html' */
-
 body,html {
 	height:100%;
 }
@@ -141,6 +137,12 @@ body {
 	padding-top: 151px;
 	padding-bottom: 50px;
 }
+
+/*
+.spaced {
+    margin: 1em 0;    
+}
+*/
 
 #sidebar {
 	width: inherit;

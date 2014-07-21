@@ -7,7 +7,6 @@
 		background-image: url(../static/images/background.jpg);
 		background-size: cover;
 		padding-top: 10%;
-		padding-bottom: 50%;
 	}
 </style>
 
@@ -35,7 +34,7 @@
 			
             <input type="submit" class="btn btn-nyc" id="btn" name="btn" value="Search">
             <br><br>
-            <input type="checkbox" name="fulltext" style="margin-left: 15px"> Enable Full-Text Searching
+            <input type="checkbox" id="full" name="fulltext" data-toggle="tooltip" data-placement="top" title="May negatively impact speed" style="margin-left: 15px"> Enable Full-Text Searching
 			<br><br>
 			<a type="button" class="btn btn-nyc" id="btn" href="javascript:;" onClick="toggle('hideaway')" style="margin-left: 15px;">
 				Filter&nbsp;
@@ -176,5 +175,9 @@
 		</div>
 	</form>
 </div>
+
+<script type="text/javascript">
+    $("#full").tooltip('toggle');
+</script>
 
 {% endblock %}

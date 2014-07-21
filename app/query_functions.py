@@ -18,7 +18,7 @@ def process_query(search, agencies_selected, categories_selected, types_selected
 	#initialize query or search based on user input
 	if search:
 		if fulltext_checked:
-			results = CityRecord.query.whoosh_search(search)
+			results = CityRecord.query.whoosh_search(search) #whoosh_search(search, fields=('title',))
 		else:
 			results = Document.query.whoosh_search(search)
 	else:

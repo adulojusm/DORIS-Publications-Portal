@@ -35,7 +35,17 @@
 </div>
 <div class="navbar navbar-fixed-top" style="min-width: 500px; left: 280px; top: 100px;">
 	<h4 class="navbar-text">
-		Displaying <strong>{{start+1}} - {{start+num_results}}</strong> records
+	    {% if length > 0 %}
+		    Displaying <strong>{{start+1}} - 
+		        {% if length < num_results %} 
+		            {{ length}} 
+                {% else %} 
+                    {{start+num_results}}
+                {% endif %}
+                </strong> records
+        {% else %}
+            No records to display
+        {% endif %}
 	</h4>
     <ul class="nav navbar-nav navbar-right" style="padding-right: 30px">
         <div class="btn-group">
@@ -217,7 +227,7 @@
 	            </div>
 	            <br>
 	            <button type="submit" class="btn btn-nyc" id="btn" name="btn" value="Refine / Search" onclick="$.jStorage.set('scrollPosition', 0);">Filter</button>
-	            <button type="button" class="btn" id="btn" value="Remove All" style = "background-color:#FF6666;color:white">Remove Filters</button>
+	            <button type="button" class="btn btn-coral" id="btn" value="Remove All">Remove Filters</button>
 			</div>
         </form>
 	</div>
@@ -226,14 +236,18 @@
 <div id="main" onscroll="$.jStorage.set('scrollPosition', this.scrollTop);">
     {% if not length %}
         <div class="col-md-12">
-            <p>Your search did not return any results. Please revise your choice of filter(s). </p>
-            <p>Suggestions:</p>
-            <ul>
-                <li>Change your filter(s)</li>
-                <li>Remove all filters</li>
-                <li>Start a new search</li>
-                <li>Simplify your search</li>
-            </ul>
+            <h5 style="font-size: 17px; margin-left: 50px;">
+                <p>Your search did not return any results. </p>
+                <p>Suggestions:
+                <ul>
+                    <li>Change your filter(s)</li>
+                    <li>Remove all filters</li>
+                    <li>Start a new search</li>
+                    <li>Simplify your search</li>
+                    <li>Check your spelling</li>
+                </ul>
+                </p>
+            </h5>
         </div>
     {% else %}
         <div class="col-md-12">
@@ -247,41 +261,50 @@
 	                            <h3 class="panel-title">{{ count }}. {{ result.title }}</h3>
 	                        </div>
 	                        <div class="panel-body">
-	                            <h5><b>{{ result.agency }}</b></h5>
-	                            <h5>{{ result.category }}</h5>
-	                            <p>
-	                                <small>{{ result.date_created }}</small>
-	                                <small style="padding-left:2em">{{ result.type }}</small>
-	                            </p>
-								{% if not list_view %}
-	                            <p> {{ result.description }} </p>
-	                            <p>
-	                                {% if result.url != '' %}
-	                                <form method="get" action="{{ url_for('publication',id = result.id) }}" style="display: inline-block;">
-	                                    <button type="submit" class="btn btn-sm btn-nyc">
-	                                        <span class="glyphicon glyphicon-search"></span> View
-	                                    </button>
-	                                </form>
-									<form method="get" action="{{ result.url }}" style="display: inline-block;">
-	                                    <button type="submit" class="btn btn-sm btn-nyc">
-	                                        <span class="glyphicon glyphicon-save"></span> Save
-	                                    </button>
-	                                </form>
-	                                {% else %}
-	                                <form method="get" action="404" style="display: inline-block;">
-	                                    <button type="submit" class="btn btn-sm btn-nyc disabled">
-	                                        <span class="glyphicon glyphicon-search"></span> View
-	                                    </button>
-	                                </form>
-									<form method="get" action="404" style="display: inline-block;">
-	                                    <button type="submit" class="btn btn-sm btn-nyc disabled">
-	                                        <span class="glyphicon glyphicon-save"></span> Save
-	                                    </button>
-	                                </form>
-	                                {% endif %}
-	                            </p>
-	                            {% endif %}
-	                        </div>
+                                {% if not list_view %} <!-- if panel view -->
+                                    <h5><b>{{ result.agency }}</b></h5>
+                                    <h5>{{ result.category }}</h5>
+                                    <p>
+                                        <small>{{ result.date_created }}</small>
+                                        <small style="padding-left: 2em">{{ result.type }}</small>
+                                    </p>
+                                    <p> {{ result.description }} </p>
+                                    <p>
+                                        {% if result.url != '' %}
+                                            <form method="get" action="{{ url_for('publication',id = result.id) }}" style="display: inline-block;">
+                                                <button type="submit" class="btn btn-sm btn-nyc">
+                                                    <span class="glyphicon glyphicon-search"></span> View
+                                                </button>
+                                            </form>
+<!--
+                                            <form method="get" action="{{ result.url }}" style="display: inline-block;">
+                                                <button type="submit" class="btn btn-sm btn-nyc">
+                                                    <span class="glyphicon glyphicon-save"></span> Save
+                                                </button>
+                                            </form>
+-->
+                                            <a href="{{ result.url }}" download="{{ result.filename }}" class="btn btn-sm btn-nyc">
+                                                <span class="glyphicon glyphicon-save"></span> Save
+                                            </a>
+                                        {% else %}
+                                            <form method="get" action="404" style="display: inline-block;">
+                                                <button type="submit" class="btn btn-sm btn-nyc">
+                                                    <span class="glyphicon glyphicon-search"></span> View
+                                                </button>
+                                            </form>
+                                            <form method="get" action="404" style="display: inline-block;">
+                                                <button type="submit" class="btn btn-sm btn-nyc">
+                                                    <span class="glyphicon glyphicon-save"></span> Save
+                                                </button>
+                                            </form>
+                                        {% endif %}
+                                    </p>
+                                {% else %} <!-- if list view -->
+                                    <p>
+                                        {{ result.agency }} | {{ result.category }} | {{ result.type }} | {{ result.date_created }}
+                                    </p>
+                                {% endif %}
+                            </div>
 	                    </div>
 	                </div>
 	            </div>
