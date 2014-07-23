@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<component name="dataSourceStorage">
-  <data-source source="LOCAL" name="Dev-DB-Server-01" uuid="bc8f8efd-761b-4a7c-b2f2-9cd183d6c266">
-    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
-  </data-source>
-  <data-source source="LOCAL" name="Dev-DB-Server-02" uuid="4b2f2966-c858-43d0-949f-62ca14a1cec8">
-    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
-  </data-source>
-</component>
