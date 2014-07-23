@@ -1,5 +1,4 @@
-from models import Document, CityRecord
-from sqlalchemy.orm import defer, load_only
+from models import Document
 import time
 
 def process_query(search, agencies_selected, categories_selected, types_selected, fulltext_checked):
@@ -18,9 +17,9 @@ def process_query(search, agencies_selected, categories_selected, types_selected
 	#initialize query or search based on user input
 	if search:
 		if fulltext_checked:
-			results = CityRecord.query.whoosh_search(search) #whoosh_search(search, fields=('title',))
+			results = Document.query.whoosh_search(search, fields=('docText',))
 		else:
-			results = Document.query.whoosh_search(search)
+			results = Document.query.whoosh_search(search, fields=('title', 'description', 'agency', 'category', 'type'))
 	else:
 		results = Document.query
 
@@ -86,7 +85,7 @@ def normalize(_input):
 	stop_words = []
 
 	#remove stop characters
-	stop_chars = ['"', '<', '>', '#', '%', '{', '}', '|', '\\', '^', '~', '[', ']', '`',  "--", '.']
+	stop_chars = ['?', '"', '<', '>', '#', '%', '{', '}', '|', '\\', '^', '~', '[', ']', '`',  "--", '.']
 	for char in stop_chars:
 		_input = _input.replace(char, '')
 

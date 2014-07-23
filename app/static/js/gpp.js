@@ -1,17 +1,36 @@
 //toggle element display
+/*
 function toggle(obj) {
 	var element = document.getElementById(obj);
 
-	if (element.style.display != "none") {
-		element.style.display = "none";
+	if (element.style.display != 'none') {
+		element.style.display = 'none';
 	}
 	else {
-		element.style.display = "";
+		element.style.display = '';
 	}
 }
+*/
+function toggleSlide(id) {
+    
+    if ($(id).css("display") == 'none') {
+        $(id).slideDown("fast");
+    }
+    else {
+        $(id).slideUp("fast");
+    }
+}
 
-//keep fulltext searchbox checked
-
+function toggleFadeAtScroll(id, scrollDist) {
+    
+    if ($.jStorage.get('scrollPosition') > scrollDist && $(id).css("display") == 'none') {
+        $(id).fadeIn("slow");
+    }
+    if ($.jStorage.get('scrollPosition') < scrollDist) {
+        $(id).fadeOut("slow");
+    }
+}
+//keep fulltext searchbox checked???
 	
 function maintainSelect(id, jStoreVar, selectList) {
     if ($.jStorage.get(jStoreVar)) {
@@ -81,4 +100,13 @@ $('.disabled').click(function(event){
 });
 $('.active').click(function(event){
     event.preventDefault();
+});
+
+//popover
+$(function () {
+    $('.popover-hover').popover( {
+        trigger: 'hover',
+        html: true,
+        placement: 'right',
+    });
 });

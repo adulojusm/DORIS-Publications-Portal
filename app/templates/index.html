@@ -20,28 +20,27 @@
 	    <div class="form-group">
 			
 			<div class="col-sm-9">
-				<!--{{ form.user_input(class="form-control") }} -->
 				{% with msgs = get_flashed_messages() %}
 					{% if msgs %}
 						{% for msg in msgs %}
-							<input type="text" class = "form-control" name="user_input" placeholder="Please enter a search" style="border-color: #FF0000; box-shadow: 0 0 10px #FF0000;">
+							<input type="text" class="form-control form-control-danger" name="user_input" placeholder="Please enter a search" style="border-color: #FF0000; box-shadow: 0 0 10px #FF0000;">
 						{% endfor %}
 					{% else %}
-						<input type="text" class = "form-control" name="user_input" >
+						<input type="text" class="form-control" name="user_input" >
 					{% endif %}
 				{% endwith %}
 			</div>
 			
             <input type="submit" class="btn btn-nyc" id="btn" name="btn" value="Search">
             <br><br>
-            <input type="checkbox" id="full" name="fulltext" data-toggle="tooltip" data-placement="top" title="May negatively impact speed" style="margin-left: 15px"> Enable Full-Text Searching
+            <input type="checkbox" class="popover-hover" name="fulltext" data-toggle="popover" title="Warning" data-content="Checking this option will enable searching within entire document texts, which may produce a slight negative impact on search speed." style="margin-left: 15px"> Enable Full-Text Searching
 			<br><br>
-			<a type="button" class="btn btn-nyc" id="btn" href="javascript:;" onClick="toggle('hideaway')" style="margin-left: 15px;">
+			<a type="button" class="btn btn-nyc" id="btn" onclick="toggleSlide('#hidden-selects')" style="margin-left: 15px;">
 				Filter&nbsp;
 				<span class="caret"></span>
 			</a>
 			<br><br>
-			<div id="hideaway" style="display: none;">
+			<div id="hidden-selects" style="display: none;">
 				<div id="selects" style="margin-left: 15px">
                     <select name="agency[]" id="agencies" class="selectpicker input-medium" multiple data-live-search="true" style="display: none;">
                         <option value="Aging" >Aging</option>
@@ -169,15 +168,10 @@
                     </select>
 					<br><br>
 					<button type="button" class="btn btn-coral" id="btn" value="Remove All">Remove All</button>
-				</div>
-				
+				</div>	
 			</div>
 		</div>
 	</form>
 </div>
-
-<script type="text/javascript">
-    $("#full").tooltip('toggle');
-</script>
 
 {% endblock %}

@@ -1,11 +1,15 @@
 from app import app
 from flask import Flask,render_template, request, flash, url_for, redirect, make_response, session, abort
 from forms import SearchForm
-from models import db, Document, CityRecord
+from models import db, Document
 from query_functions import process_query, sort_search
 from index_database import index_document, add_sample_entries, index_city_record
 from flask.ext.paginate import Pagination
 
+def redirect_url(default='index'):
+    return request.args.get('next') or \
+           request.referrer or \
+           url_for(default)
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
@@ -72,6 +76,7 @@ def results():
         #GET - Num Results
         if request.args.get('num_results'):
             session['num_results'] = request.args.get('num_results')
+            session['page'] = 1
             
         #GET - List view
         if request.args.get('list_view'):
@@ -89,6 +94,9 @@ def results():
     start = session['page'] * int(session['num_results']) - int(session['num_results'])
     res = res[start : start + int(session['num_results']) ]
 
+    if len(session['search']) > 30:
+        session['search'] = session['search'][:30] + '...'
+     
     #RENDER!
     return render_template("results.html", 
                             start=start,
@@ -101,7 +109,8 @@ def results():
                             pagination=pagination,
                             fulltext=session['fulltext'],
                             num_results=int(session['num_results']),
-                            list_view=int(session['list_view']))
+                            list_view=int(session['list_view']),
+                            page_num=session['page'])
 
 
 @app.route('/publication/<int:id>', methods=['GET'])
@@ -126,25 +135,18 @@ def about():
     return render_template("about.html")
 
 
+@app.route('/email', methods=['GET', 'POST'])
+def email():
+	#On POST request
+    if request.method == 'POST':
+		if request.form['send_email']:
+			if request.form['feedback_msg']:
+				message = request.form['feedback_msg']
+			name = request.form['name']
+			email = request.form['email']
+    return redirect(redirect_url())
+
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
-
-
-# @app.route('/create_db')
-# def create_db():
-#     db.drop_all()
-#     db.create_all()
-#     return redirect(url_for('index'))
-# 
-# 
-# @app.route('/whoosh_index_db')
-# def whoosh_index_db():
-#     index_database()
-#     return redirect(url_for('index'))
-# 
-#     
-# @app.route('/whoosh_index_cityrecord/<year>')
-# def whoosh_index_cityrecord(year):
-#     index_city_record(year)
-#     return redirect(url_for('index'))

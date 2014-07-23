@@ -5,11 +5,10 @@ app = Flask(__name__)
 
 import appconfig
 
-from models import db, Document, CityRecord
+from models import db, Document
 db.init_app(app)
 
 with app.app_context():
 	flask.ext.whooshalchemy.whoosh_index(app, Document)
-	flask.ext.whooshalchemy.whoosh_index(app, CityRecord)
 
 from app import views

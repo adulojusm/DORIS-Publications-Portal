@@ -1,4 +1,4 @@
-from models import db, Document, CityRecord
+from models import db, Document
 import MySQLdb
 from datetime import date
 import os
@@ -24,7 +24,10 @@ def index_document():
 								category=record[9],
 								type=record[10],
 								url=record[11],
-								pub_or_foil=record[12]))
+								pub_or_foil=record[12],
+								docText=record[13]))
+        print record[0]
+        
 	db.session.commit()
 	
 	
@@ -49,7 +52,7 @@ def index_city_record(year):
 					
 				rec_description = 'The City Record is the official journal of the City of New York. It is published each weekday except legal holidays and contains official legal notices produced by New York City agencies. Announcements published in The City Record include:\nupcoming public hearings and meetings; procurement bid solicitations; selected court decisions; bid awards; public auctions and other property disposition actions; official rules proposed and adopted by City agencies.\nProcurement bid solicitation notices afford vendors the opportunity to compete for New York City\'s $17 billion worth of contracts for various categories of goods and services for over 100 agencies and other governmental organizations.'
 			
-				db.session.add(CityRecord(title=rec_title,
+				db.session.add(Document(title=rec_title,
 										description=rec_description,
 										date_created=file_date,
 										filename=filename,

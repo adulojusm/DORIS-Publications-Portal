@@ -57,3 +57,7 @@ whoosh_index/
 
 # Virtualenv
 appEnv/
+
+# DB files
+app/index_database.py
+app/view_db_functions.py

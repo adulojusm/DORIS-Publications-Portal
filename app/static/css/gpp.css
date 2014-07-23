@@ -1,4 +1,3 @@
-/* btn-nyc */
 .btn-nyc {
   color: #fff;
   background-color: #6b27ca;
@@ -72,14 +71,6 @@ fieldset[disabled] .btn-nyc.active {
   border-bottom-color: #6b27ca;
 }
 
-/*
-.dropdown-menu{
-	padding: 15px;
-	position:absolute;
-	left:0px;
-}
-*/
-
 #search {
 	background-color: rgba(255,255,255,0.75);
 	border-width: 1px;
@@ -115,12 +106,6 @@ select {
 	margin-left: 35px;
 }
 
-/*
-#selects{
-	margin-left: 15px;
-}
-*/
-
 h2 {
 	color:purple;
 }
@@ -137,12 +122,6 @@ body {
 	padding-top: 151px;
 	padding-bottom: 50px;
 }
-
-/*
-.spaced {
-    margin: 1em 0;    
-}
-*/
 
 #sidebar {
 	width: inherit;
@@ -161,12 +140,27 @@ body {
 	overflow:auto;
 }
 
-/*.form-control::-webkit-input-placeholder {
+.form-control-danger::-moz-placeholder {
   color: #FF0000;
-}*/
+}
 
+/*
 [placeholder]:focus::-webkit-input-placeholder {
   transition: opacity 0.25s 0.25s ease;
-/*   color: purple; */
+  color: purple;
   opacity: 0;
+}
+*/
+
+.return-to-top {
+    position: fixed;
+    top: 405px;
+    left: 188px;
+    transform: rotate(270deg);
+    -ms-transform: rotate(270deg); /* IE 9 */
+    -webkit-transform: rotate(270deg); /* Opera, Chrome, and Safari */
+}
+
+.modal-dialog{
+  width: 45%;
 }
