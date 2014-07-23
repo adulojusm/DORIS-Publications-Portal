@@ -58,12 +58,13 @@ whoosh_index/
 # Virtualenv
 appEnv/
 
-<<<<<<< HEAD
 # DB files
 app/index_database.py
 app/view_db_functions.py
-=======
+
 # Sublime Text Files
 *.sublime-project
 *.sublime-workspace
->>>>>>> 80947ac5cdd8549d283e55e30ea457fa703a3d7a
+
+#Pycharm Files
+.idea/
