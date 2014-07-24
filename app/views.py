@@ -5,11 +5,15 @@ from models import db, Document
 from query_functions import process_query, sort_search
 from index_database import index_document, add_sample_entries, index_city_record
 from flask.ext.paginate import Pagination
+from flask.ext.mail import Message
+from . import mail
+
 
 def redirect_url(default='index'):
     return request.args.get('next') or \
            request.referrer or \
            url_for(default)
+
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
@@ -137,13 +141,31 @@ def about():
 
 @app.route('/email', methods=['GET', 'POST'])
 def email():
-	#On POST request
+
+    #On POST request
     if request.method == 'POST':
-		if request.form['send_email']:
-			if request.form['feedback_msg']:
-				message = request.form['feedback_msg']
-			name = request.form['name']
-			email = request.form['email']
+    
+        if request.form['send_email']:
+        
+            if request.form['feedback_msg']:
+                message = request.form['feedback_msg']
+                
+            name = request.form['name']
+            email = request.form['email']
+            
+            if email:
+                msg = Message(subject='GPP Feedback',
+                              body=message,
+                              sender=email,
+                              recipients=["palisandratos@records.nyc.gov"])
+            else:
+                msg = Message(subject='GPP Feedback',
+                              body=message,
+                              sender="noreply@nothing.com",
+                              recipients=["palisandratos@records.nyc.gov"])
+                              
+            mail.send(msg)
+                              
     return redirect(redirect_url())
 
 

@@ -1,7 +1,12 @@
 from flask import Flask
 import flask.ext.whooshalchemy
+from flask.ext.mail import Mail
+
+mail = Mail()
 
 app = Flask(__name__)
+mail.init_app(app)
+
 
 import appconfig
 
