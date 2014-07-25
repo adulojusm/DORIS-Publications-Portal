@@ -140,7 +140,16 @@ body {
 	overflow:auto;
 }
 
+/* are commas not working or something? */
 .form-control-danger::-moz-placeholder {
+  color: #FF0000;
+}
+
+.form-control-danger::-webkit-input-placeholder {
+  color: #FF0000;
+}
+
+.form-contorl-danger::-ms-input-placeholder {
   color: #FF0000;
 }
 

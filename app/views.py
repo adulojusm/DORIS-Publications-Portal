@@ -1,7 +1,8 @@
+import os
 from app import app
-from flask import Flask,render_template, request, flash, url_for, redirect, make_response, session, abort
+from flask import Flask, render_template, request, flash, url_for, redirect, make_response, session, abort, jsonify
 from forms import SearchForm
-from models import db, Document
+from models import db, Document# , DocumentCereal
 from query_functions import process_query, sort_search
 from index_database import index_document, add_sample_entries, index_city_record
 from flask.ext.paginate import Pagination
@@ -119,10 +120,7 @@ def results():
 
 @app.route('/publication/<int:id>', methods=['GET'])
 def publication(id):
-    if id > 100000:
-        document = CityRecord.query.filter(CityRecord.id == id).first()
-    else:
-        document = Document.query.filter(Document.id == id).first()
+    document = Document.query.filter(Document.id == id).first()
     document_title = document.title
     document_url = document.url
     # document.num_access += 1
@@ -139,32 +137,24 @@ def about():
     return render_template("about.html")
 
 
-@app.route('/email', methods=['GET', 'POST'])
+@app.route('/email', methods=['POST'])
 def email():
 
     #On POST request
     if request.method == 'POST':
     
-        if request.form['send_email']:
-        
-            if request.form['feedback_msg']:
-                message = request.form['feedback_msg']
-                
+        if request.form['send_email'] and request.form['feedback_msg']:
+            message = request.form['feedback_msg']
             name = request.form['name']
             email = request.form['email']
-            
-            if email:
-                msg = Message(subject='GPP Feedback',
-                              body=message,
-                              sender=email,
-                              recipients=["palisandratos@records.nyc.gov"])
-            else:
-                msg = Message(subject='GPP Feedback',
-                              body=message,
-                              sender="noreply@nothing.com",
-                              recipients=["palisandratos@records.nyc.gov"])
-                              
+            msg = Message(subject='GPP Feedback',
+                          body='Name: ' + name + '\n' + 'Email: ' + email + '\n' + 'Message: ' + message,
+                          sender=os.environ.get('DEFAULT_MAIL_SENDER'),
+                          recipients=[os.environ.get('FEEDBACK_RECIPIENT')])
+        try:                                                
             mail.send(msg)
+        except UnboundLocalError:
+            return redirect(redirect_url())
                               
     return redirect(redirect_url())
 

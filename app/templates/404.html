@@ -6,9 +6,12 @@
 
     <style> body { padding-top: 50px; } </style>
     <div class="container">
-        <h2>File Not Found</h2>
-        <p>What you are looking for... It's not here.</p>
+        <h2>404 Broken Link</h2>
+        <p>What you are looking for cannot be found</p>
         <p>Sorry :(</p>
+		<a type="button" class="btn btn-nyc navbar-btn navbar-left" href='{{ url_for('index') }}'>
+			<span class="glyphicon glyphicon-home"></span> Home Page
+		</a>
     </div>
 
 {% endblock %}

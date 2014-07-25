@@ -1,4 +1,5 @@
 from flask.ext.sqlalchemy import SQLAlchemy
+from marshmallow import Serializer, fields
 
 db = SQLAlchemy()
 
@@ -136,3 +137,8 @@ class Document(db.Model):
 	url = db.Column(db.String(255), nullable=False)
 	pub_or_foil = db.Column(db.Enum('Publication', 'FOIL'), nullable=False)
 	docText = db.Column(db.UnicodeText(length=2**23))
+	
+#marshmallows go great with a morning cereal
+class DocumentCereal(Serializer):
+    class Meta:
+        fields = ('id', 'title', 'description', 'date_created', 'filename', 'common_id', 'section_id', 'num_access', 'agency', 'category', 'type', 'url', 'pub_or_foil', 'docText')
