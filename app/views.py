@@ -1,8 +1,8 @@
 import os
 from app import app
-from flask import Flask, render_template, request, flash, url_for, redirect, make_response, session, abort, jsonify
+from flask import Flask, render_template, request, flash, url_for, redirect, make_response, session, abort
 from forms import SearchForm
-from models import db, Document# , DocumentCereal
+from models import db, Document
 from query_functions import process_query, sort_search
 from index_database import index_document, add_sample_entries, index_city_record
 from flask.ext.paginate import Pagination
@@ -44,6 +44,8 @@ def results():
         session['list_view'] = 0
     if 'page' not in session:
         session['page'] = 1
+    if 'results' not in session:
+        session['results'] = {}
     
     #On POST request
     if request.method == 'POST':
@@ -88,16 +90,16 @@ def results():
             session['list_view'] = request.args.get('list_view')
             
     #retrieve results
-    res, time = process_query(session['search'], session['agencies'], session['categories'], session['types'], session['fulltext'])
-    res = sort_search(res, session['sort'])
-    session['length'] = len(res)
+    session['results'], time = process_query(session['search'], session['agencies'], session['categories'], session['types'], session['fulltext'])
+#     res = sort_search(res, session['sort'])
+    session['length'] = len(session['results'])
     
     #initiate pagination
     session['page'] = int(request.args.get('page', session['page']))
         
     pagination = Pagination(page=session['page'], total=session['length'], per_page=int(session['num_results']), css_framework="boostrap3")
     start = session['page'] * int(session['num_results']) - int(session['num_results'])
-    res = res[start : start + int(session['num_results']) ]
+    session['results'] = session['results'][start : start + int(session['num_results']) ]
 
     if len(session['search']) > 30:
         session['search'] = session['search'][:30] + '...'
@@ -106,7 +108,7 @@ def results():
     return render_template("results.html", 
                             start=start,
                             search=session['search'], 
-                            results=res, 
+                            results=session['results'], 
                             time=time, 
                             length=session['length'], 
                             method='post', 

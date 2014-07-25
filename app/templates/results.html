@@ -36,7 +36,7 @@
 <div class="navbar navbar-fixed-top" style="min-width: 800px; left: 280px; top: 100px;">
 	<h4 class="navbar-text">
 	    {% if length > 0 %}
-		    Page <strong>{{ page_num }}</strong> : Displaying <strong>{{start+1}} - 
+		    Page <strong>{{ page_num }}</strong> : Displaying records <strong>{{start+1}} - 
 		        {% if length < num_results %} 
 		            {{ length }}
                 {% elif (length - start) < num_results %}
@@ -44,7 +44,7 @@
                 {% else %} 
                     {{ start + num_results }}
                 {% endif %}
-                </strong> records
+                </strong>
         {% else %}
             No records to display
         {% endif %}
@@ -261,30 +261,30 @@
         <div class="col-md-12">
         	<br>
         	{% set count = start + 1 %}
-            {% for result in results %}
+            {% for i in range(start, start+num_results) %}
 	            <div class="row">
 	                <div class="col-md-12">
 	                    <div class="panel panel-result">
                             {% if not list_view %} <!-- if panel view -->
                             <div class="panel-heading">
-                                <h3 class="panel-title">{{ count }}. {{ result.title }}</h3>
+                                <h3 class="panel-title">{{ count }}. {{ results[i].title }}</h3>
                             </div>
                             <div class="panel-body">
-                                <h5><b>{{ result.agency }}</b></h5>
-                                <h5>{{ result.category }}</h5>
+                                <h5><b>{{ results[i].agency }}</b></h5>
+                                <h5>{{ results[i].category }}</h5>
                                 <p>
-                                    <small>{{ result.date_created }}</small>
-                                    <small style="padding-left: 2em">{{ result.type }}</small>
+                                    <small>{{ results[i].date_created }}</small>
+                                    <small style="padding-left: 2em">{{ results[i].type }}</small>
                                 </p>
-                                <p> {{ result.description }} </p>
+                                <p> {{ results[i].description }} </p>
                                 <p>
-                                    {% if result.url != '' %}
-                                        <form method="get" action="{{ url_for('publication',id = result.id) }}" style="display: inline-block;">
+                                    {% if results[i].url != '' %}
+                                        <form method="get" action="{{ url_for('publication',id = results[i].id) }}" style="display: inline-block;">
                                             <button type="submit" class="btn btn-sm btn-nyc">
                                                 <span class="glyphicon glyphicon-search"></span> View
                                             </button>
                                         </form>
-                                        <a href="{{ result.url }}" download="{{ result.filename }}" class="btn btn-sm btn-nyc">
+                                        <a href="{{ results[i].url }}" download="{{ results[i].filename }}" class="btn btn-sm btn-nyc">
                                             <span class="glyphicon glyphicon-save"></span> Save
                                         </a>
                                     {% else %}
@@ -302,11 +302,11 @@
                                 </p>
                             {% else %} <!-- if list view -->
                             <div class="panel-heading">
-                                <h3 class="panel-title">{{ count }}. <a href="{{ result.url }}">{{ result.title }}</a></h3>
+                                <h3 class="panel-title">{{ count }}. <a href="{{ result.url }}">{{ results[i].title }}</a></h3>
                             </div>
                             <div class="panel-body">
                                 <p>
-                                    {{ result.agency }} | {{ result.category }} | {{ result.type }} | {{ result.date_created }}
+                                    {{ results[i].agency }} | {{ results[i].category }} | {{ results[i].type }} | {{ results[i].date_created }}
                                 </p>
                             {% endif %}
                             </div>

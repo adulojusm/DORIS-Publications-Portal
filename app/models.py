@@ -138,7 +138,7 @@ class Document(db.Model):
 	pub_or_foil = db.Column(db.Enum('Publication', 'FOIL'), nullable=False)
 	docText = db.Column(db.UnicodeText(length=2**23))
 	
-#marshmallows go great with a morning cereal
+# marshmallows go great with cereal, especially the small kind
 class DocumentCereal(Serializer):
     class Meta:
         fields = ('id', 'title', 'description', 'date_created', 'filename', 'common_id', 'section_id', 'num_access', 'agency', 'category', 'type', 'url', 'pub_or_foil', 'docText')
