@@ -25,42 +25,22 @@ def process_query(search, agencies_selected, categories_selected, types_selected
     else:
         results = Document.query
 
-    #retrieve results object list
-    results = results.all()
-
-    #filter by user selections, if any
-    initial_filter = []
-    intermediate_filter = []
-    final_filter = []
-    
     if agencies_selected:
-        for result in results:
-            if result.agency in agencies_selected:
-                initial_filter.append(result)
-    else:
-        initial_filter = results
+        results = results.filter(Document.agency.in_(agencies_selected))
 
     if categories_selected:
-        for result in initial_filter:
-            if result.category in categories_selected:
-                intermediate_filter.append(result)
-    else:
-        intermediate_filter = initial_filter
+        results = results.filter(Document.category.in_(categories_selected))
 
     if types_selected:
-        for result in intermediate_filter:
-            if result.type in types_selected:
-                final_filter.append(result)
-    else:
-        final_filter = intermediate_filter
+        results = results.filter(Document.type.in_(types_selected))
 
-    serialized = jsonify({"results": DocumentCereal(final_filter, many=True).data})
-    res = json.loads(serialized.data)['results']
+#     serialized = jsonify({"results": DocumentCereal(final_filter, many=True).data})
+#     res = json.loads(serialized.data)['results']
         
     process_time_elapsed = format((time.clock() - process_time_start), '.2f')
     
-#     return final_filter, process_time_elapsed
-    return res, process_time_elapsed
+    return results.all(), process_time_elapsed
+#     return res, process_time_elapsed
 
 
 def sort_search(results, sort_method):
@@ -70,7 +50,7 @@ def sort_search(results, sort_method):
     :param sort_method: how to sort results
     :return: sorted results
     """
-    sort_by = {"Relevance": results,
+    sort_by = { "Relevance": results,
                 "Date: Newest": sorted(results, key=lambda r: r.date_created, reverse=True),
                 "Date: Oldest": sorted(results, key=lambda r: r.date_created),
                 "Title: A - Z": sorted(results, key=lambda r: r.title),
