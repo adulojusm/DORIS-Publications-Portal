@@ -56,10 +56,6 @@ def results():
             session['types'] = request.form.getlist('type[]')
             session['fulltext'] = request.form.get('fulltext')
             
-            if not session['search'] and not session['agencies'] and not session['categories'] and not session['types']:
-                flash('')
-                return redirect(url_for('index'))
-                    
         #POST - Refine Search
         if request.form['btn'] == "Refine / Search":
             if request.form.get('user_input'):
@@ -118,8 +114,8 @@ def results():
                             page_num=session['page'])
 
 
-@app.route('/publication/<int:id>', methods=['GET'])
-def publication(id):
+@app.route('/publication/<int:id><title>', methods=['GET'])
+def publication(id,title):
     document = Document.query.filter(Document.id == id).first()
     document_title = document.title
     document_url = document.url

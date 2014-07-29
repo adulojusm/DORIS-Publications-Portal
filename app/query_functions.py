@@ -37,7 +37,7 @@ def process_query(search, agencies_selected, categories_selected, types_selected
 #     serialized = jsonify({"results": DocumentCereal(final_filter, many=True).data})
 #     res = json.loads(serialized.data)['results']
         
-    process_time_elapsed = format((time.clock() - process_time_start), '.2f')
+    process_time_elapsed = format((time.clock() - process_time_start), '.3f')
     
     return results.all(), process_time_elapsed
 #     return res, process_time_elapsed

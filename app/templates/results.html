@@ -93,7 +93,7 @@
 		<form id="result-form" class="form-search" role="form" method="post" action = '/results'>
 			<div class="navbar navbar-fixed-top" style="top: 60px; padding-left: 15px; max-width: 280px;">
 				<div class="input-group">
-					<input type="text" class="form-control" name="user_input" placeholder="Enter Search">
+					<input type="text" id="input_text" class="form-control" name="user_input" placeholder="Enter Search">
 					<span class="input-group-btn">
 						<button type="submit" class="btn btn-nyc" id="btn" name="btn" value="Refine / Search" onclick="$.jStorage.set('scrollPosition', 0);">Search</button>
 					</span>
@@ -279,7 +279,7 @@
                                 <p> {{ result.description }} </p>
                                 <p>
                                     {% if result.url != '' %}
-                                        <form method="get" action="{{ url_for('publication',id = result.id) }}" style="display: inline-block;">
+                                        <form method="get" action="{{ url_for('publication',id = result.id,title=result.title) }}" style="display: inline-block;">
                                             <button type="submit" class="btn btn-sm btn-nyc">
                                                 <span class="glyphicon glyphicon-search"></span> View
                                             </button>
