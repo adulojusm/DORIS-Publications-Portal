@@ -81,3 +81,8 @@ DORIS/*
 servers.txt
 .DS_Store
 *.sql
+conf/certs/*
+*.pwd
+agencies.txt
+type.txt
+private/*

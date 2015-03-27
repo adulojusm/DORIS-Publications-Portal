@@ -1,4 +1,4 @@
-function toggleSlide(id, speed) {
+ function toggleSlide(id, speed) {
     
     speed = typeof speed !== 'undefined' ? speed : 'fast';
     
@@ -49,6 +49,7 @@ function storeFilters() {
     $.jStorage.set('agencyVal', $('#agencies').val());
     $.jStorage.set('categoryVal', $('#categories').val());
     $.jStorage.set('typeVal', $('#types').val());
+
 }
 
 $("#btn[value='Refine / Search']").click(storeFilters);
@@ -161,15 +162,15 @@ $('.options').hover( function() {
      $('body').toggleClass('scroll-lock');
 });
 
-$('.options').mouseenter( function() {
-    $(this).animate({opacity: 1}, 200);
-});
-
-$('.options').mouseleave( function() {
-    if ($(window).width() < 767) {
-        $(this).animate({opacity: 0.5}, 200);
-    }
-});
+//$('.options').mouseenter( function() {
+//    $(this).animate({opacity: 1}, 200);
+//});
+//
+//$('.options').mouseleave( function() {
+//    if ($(window).width() < 767) {
+//        $(this).animate({opacity: 0.5}, 200);
+//    }
+//});
 
 $(window).scroll( function() {
     $.jStorage.set('scrollPosition', $('body').scrollTop());
@@ -199,9 +200,9 @@ $(window).on('load', function () {
     
     toggleSlide('#search-area', 'slow');
 
-    maintainSelect('#agencies', 'agencyVal', agencies);
-    maintainSelect('#categories', 'categoryVal', categories);
-    maintainSelect('#types', 'typeVal', types);
+    //maintainSelect('#agencies', 'agencyVal', agencies);
+    //maintainSelect('#categories', 'categoryVal', categories);
+    //maintainSelect('#types', 'typeVal', types);
     
     $('.pagination').on('click', function() {
     	$.jStorage.set('scrollPosition',0);

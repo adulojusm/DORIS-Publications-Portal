@@ -1,30 +1,12 @@
-# About Page
-
-The Municipal Library operated by the New York City Department of Records and
-Information Services (DORIS) is responsible for providing information about City
-government to the public. This includes reports dating to the 19th Century and 
-up-to-the minute reports that are available on our website.
-
-We have revamped the government publications portal to provide easy access to 
-these documents and we have increased the number of reports available online. 
-This new portal includes reports from most City offices and agencies. We will 
-be adding additional types of information to the portal in the upcoming months 
-and we will continue to solicit past reports and additional government 
-participants. You will not find documents from the following entities on this 
-portal: The Center for Innovation through Data Intelligence, The Economic 
-Development Corporation, and The Health and Hospitals Corporation.
-
-# Github Wiki/Readme
-
 ## Government Publications Portal
 
 ### About
 
 This application was built under the direction of Joel Castillo by three 
 talented interns from the NYU Polytechnic School of Engineering, Alan Chen, 
-Alvi Kabir, and Panagis (Peter) Alisandratos using Python and the Flask 
-microframework. We currently use the following packages in our application:
+Alvi Kabir, and Panagis (Peter) Alisandratos using Python and the Django Framework. 
 
+We currently use the following packages in our application:
 - Django 1.6.6
 - django-endless-pagination 2.0
 - ecdsa 0.11
@@ -44,10 +26,6 @@ document titles, descriptions, agencies, types, and categories to give you the
 best possible results.
 - Advanced Search – You can filter your results By Agency, Category, and Type 
 to make the search even faster and targeted.
-- Fulltext Search – The next version of the app will have full text search for 
-all documents.
-Currently this feature is only available for the City Record published from 
-2008 to the present.
 - Sorting – All searches can be sorted by Agency, Category, Type, and Relevance.
 - Dynamic Pagination – Allows users to view 10, 20, 50, or 100 results per page.
 - Embedded PDFs – To make it easier to view the documents, the files are 
@@ -75,4 +53,4 @@ repository and show us what you can do with our codebase to make it even better.
 ### Acknowledgements
 
 Special thanks to our four talented interns
-(Alan Chen, Alvi Kabir, Brandon Tang, and Panagis Alisandratos);
+(Alan Chen, Alvi Kabir, Brandon Tang, and Panagis Alisandratos), Jeff Merrit, Steve Bezman, Prince Gupta, and Anand Krishnan.
